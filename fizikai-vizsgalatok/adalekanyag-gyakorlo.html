@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Adalékanyag Gyakorló</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 30px; border-radius: 20px; max-width: 600px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
+        .task-box { background: #f9f9f9; padding: 20px; border-left: 5px solid var(--accent); margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; }
+        button { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
+    <h2 id="title">Betöltés...</h2>
+    <div id="task" class="task-box"></div>
+    <input type="number" id="ans" step="0.01" placeholder="Eredmény százalékban">
+    <button onclick="check()">Ellenőrzés</button>
+</div>
+
+<script>
+    let type, correct, val1, val2;
+
+    function gen() {
+        type = Math.random() > 0.5 ? 'iszap' : 'szita';
+        if(type === 'iszap') {
+            document.getElementById('title').innerText = "Agyag-iszap tartalom";
+            val1 = Math.floor(Math.random() * 30) + 10; // V1
+            val2 = Math.floor(Math.random() * 100) + 400; // V2
+            correct = (val1 / val2 * 100).toFixed(2);
+            document.getElementById('task').innerHTML = `V<sub>1</sub> = ${val1} cm³<br>V<sub>2</sub> = ${val2} cm³<br>Számítsd ki az <b>i</b> értéket!`;
+        } else {
+            document.getElementById('title').innerText = "Szitavizsgálat";
+            let total = 1000;
+            let fenmaradt = Math.floor(Math.random() * 200) + 100;
+            correct = (100 - (fenmaradt / total * 100)).toFixed(2);
+            document.getElementById('task').innerHTML = `Összes tömeg: ${total} g<br>Összes fennmaradt anyag ezen a szitán: ${fenmaradt} g<br>Számítsd ki az <b>Összes áthullott %</b>-ot!`;
+        }
+    }
+
+    function check() {
+        let user = document.getElementById('ans').value;
+        if(Math.abs(user - correct) < 0.1) {
+            alert("✅ Helyes! (" + correct + "%)");
+            location.reload();
+        } else {
+            alert("❌ Hiba! A helyes érték: " + correct + "%");
+        }
+    }
+    gen();
+</script>
+</body>
+</html>
