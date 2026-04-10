@@ -3,118 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Építőanyag Labor - Digitális Keretrendszer</title>
+    <title>Építőanyag laboratórium</title>
     <style>
         :root {
             --primary: #2c3e50;
-            --secondary: #34495e;
             --accent: #3498db;
-            --success: #27ae60;
-            --info: #7f8c8d;
-            --light: #ecf0f1;
+            --bg: #f4f7f6;
+            --white: #ffffff;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
             margin: 0;
+            padding: 40px 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            /* Modern építészeti háttérkép */
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), 
-                        url('https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1000');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .menu-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
         }
 
         h1 {
             color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 1.8em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
-        .subtitle {
-            color: #666;
+        /* Témaválasztó sáv */
+        .topic-nav {
+            display: flex;
+            gap: 15px;
             margin-bottom: 30px;
-            font-style: italic;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .nav-links {
+        .topic-btn {
+            padding: 12px 25px;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .topic-btn.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Tartalmi kártyák */
+        .content-area {
+            max-width: 800px;
+            width: 100%;
+            display: none; /* Alapból rejtve */
+            animation: fadeIn 0.5s;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .sub-btn {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-        }
-
-        a {
-            text-decoration: none;
-            color: white;
-            padding: 18px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1em;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--primary);
+            transition: all 0.2s;
+            font-weight: 500;
         }
 
-        a:hover {
+        .sub-btn:hover {
+            border-color: var(--accent);
+            background: #eef7ff;
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-            filter: brightness(1.1);
         }
 
-        .btn-segedlet { background-color: var(--info); }
-        .btn-alap { background-color: var(--accent); }
-        .btn-halado { background-color: var(--success); }
+        .sub-btn i {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
 
-        .footer-text {
-            margin-top: 30px;
-            font-size: 0.8em;
-            color: #999;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <div class="nav-links">
-            <a href="segedlet.html" class="btn-segedlet">
-                <span>📖</span> Tudástár és Képletek
-            </a>
-            
-            <a href="fizikai-vizsgalatok/suruseg.html" class="btn-alap">
-                <span>🧪</span> Sűrűség Vizsgálat (Alap)
-            </a>
 
-            <a href="fizikai-vizsgalatok/nedvessegi-vizsgalatok.html" class="btn-alap" style="background-color: #9b59b6;">
-                <span>💧</span> Nedvességi vizsgálatok
-            </a>
-            
-            <a href="fizikai-vizsgalatok/osszetett-feladatok.html" class="btn-halado">
-                <span>🏗️</span> Összetett Feladatok (Haladó)
-            </a>
-        </div>
+    <h1>Építőanyag vizsgálatok</h1>
 
-        <div class="footer-text">
-            &copy; 2024 Oktatási Segédlet | Mérnöki alapozó
+    <div class="topic-nav">
+        <button class="topic-btn active" onclick="showTopic('suruseg', this)">1. Sűrűség és porozitás</button>
+        <button class="topic-btn" onclick="showTopic('nedvesseg', this)">2. Nedvességi vizsgálatok</button>
+    </div>
+
+    <div id="suruseg" class="content-area active">
+        <div class="card">
+            <h3>Sűrűség és porozitás vizsgálata</h3>
+            <p>Alapvető fizikai tulajdonságok meghatározása tömeg és térfogat alapján.</p>
+            <div class="grid">
+                <a href="segedlet.html" class="sub-btn">📖 Segédlet</a>
+                <a href="fizikai-vizsgalatok/suruseg.html" class="sub-btn">🧪 Alapfeladatok</a>
+                <a href="fizikai-vizsgalatok/osszetett-feladatok.html" class="sub-btn">🏗️ Összetett feladatok</a>
+            </div>
         </div>
     </div>
+
+    <div id="nedvesseg" class="content-area">
+        <div class="card">
+            <h3>Nedvességi vizsgálatok</h3>
+            <p>Víztartalom és vízfelvétel meghatározása tömegkülönbséggel.</p>
+            <div class="grid">
+                <a href="segedlet.html#nedvesseg" class="sub-btn">📖 Segédlet</a>
+                <a href="viz-vizsgalatok-mintak.html" class="sub-btn">📄 Mintafeladatok</a>
+                <a href="fizikai-vizsgalatok/nedvessegi-vizsgalatok.html" class="sub-btn">💧 Gyakorló feladatok</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTopic(id, btn) {
+            // Összes tartalom elrejtése
+            document.querySelectorAll('.content-area').forEach(area => area.classList.remove('active'));
+            // Összes gomb inaktiválása
+            document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+            
+            // Kiválasztott megjelenítése
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
+    </script>
+
 </body>
 </html>
-
