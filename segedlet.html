@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Mérnöki Segédlet - Képletek és Algoritmusok</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background: #f4f7f6; }
+        .header { text-align: center; background: #2c3e50; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .section { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { color: #2980b9; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .formula { background: #eef2f3; padding: 15px; border-left: 5px solid #3498db; font-family: "Courier New", monospace; font-weight: bold; font-size: 1.1em; margin: 10px 0; }
+        .step-list { padding-left: 20px; }
+        .step-list li { margin-bottom: 10px; }
+        .back-btn { display: inline-block; text-decoration: none; background: #7f8c8d; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">← Vissza a menübe</a>
+    
+    <div class="header">
+        <h1>Építőanyag-vizsgálati Segédlet</h1>
+        <p>Képletek és megoldási algoritmusok</p>
+    </div>
+
+    <div class="section">
+        <h2>1. Testsűrűség és Valódi sűrűség</h2>
+        <p>A különbség a mérésnél figyelembe vett térfogatban van.</p>
+        
+        <div class="formula">ρ<sub>t</sub> = m / V<sub>t</sub> [g/cm³ vagy kg/m³]</div>
+        <p><b>V<sub>t</sub>:</b> Külső befoglaló térfogat (pórusokkal együtt).</p>
+
+        <div class="formula">ρ = m / V [g/cm³ vagy kg/m³]</div>
+        <p><b>V:</b> Csak az anyagszerkezet térfogata (pórusok nélkül, pl. piknométeres méréssel).</p>
+    </div>
+
+    <div class="section">
+        <h2>2. Tömörség és Porozitás</h2>
+        <p>Ezek az értékek azt mutatják meg, hogy az anyag térfogatának hányadrészét tölti ki szilárd anyag, és mekkora a levegő (pórus) aránya.</p>
+        
+        <div class="formula">T<sub>t</sub> = ρ<sub>t</sub> / ρ [tizedesjegy]</div>
+        <p>Százalékban: T<sub>t</sub>% = (ρ<sub>t</sub> / ρ) * 100</p>
+
+        <div class="formula">P<sub>t</sub> = 1 - T<sub>t</sub> [tizedesjegy]</div>
+        <p>Százalékban: P<sub>t</sub>% = (1 - T<sub>t</sub>) * 100</p>
+    </div>
+
+    <div class="section">
+        <h2>3. Megoldási Algoritmus (Példa)</h2>
+        <ol class="step-list">
+            <li><b>Adatok egységesítése:</b> Ellenőrizd, hogy minden adat azonos mértékegységben van-e (pl. minden gramm és cm³).</li>
+            <li><b>Testsűrűség kiszámítása:</b> Először mindig a ρ<sub>t</sub>-t számold ki a tömeg és a külső térfogat hányadosaként.</li>
+            <li><b>Arányítás:</b> Oszd el a testsűrűséget a valódi sűrűséggel (vagy fordítva, feladattól függően), hogy megkapd a tömörséget.</li>
+            <li><b>Kiegészítés 1-re:</b> A porozitás és a tömörség összege mindig 1 (vagy 100%). Ha megvan az egyik, a másik kivonással megkapható.</li>
+        </ol>
+    </div>
+
+</body>
+</html>
