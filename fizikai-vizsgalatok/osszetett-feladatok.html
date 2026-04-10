@@ -2,118 +2,31 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Összetett Vizsgálatok - Labor</title>
+    <title>Összetett feladatok</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --bg: #f4f7f6;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 100%;
-        }
-
-        .back-link {
-            text-decoration: none;
-            color: var(--accent);
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 20px;
-            transition: 0.3s;
-        }
-
-        .back-link:hover { transform: translateX(-5px); }
-
-        h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--bg); padding-bottom: 10px; }
-
-        .task-box {
-            background: #fcfcfc;
-            border: 1px solid #eee;
-            border-left: 5px solid var(--accent);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            font-size: 1.05em;
-        }
-
-        .input-group { margin-bottom: 20px; }
-
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
-
-        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 8px rgba(52, 152, 219, 0.2); }
-
-        .btn-row { display: flex; gap: 10px; margin-top: 25px; }
-
-        button {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 1em;
-        }
-
-        .btn-check { background: var(--primary); color: white; }
-        .btn-check:hover { background: #1a252f; }
-
-        .btn-hint { background: var(--warning); color: white; }
-        .btn-hint:hover { opacity: 0.9; }
-
-        .btn-next { background: var(--success); color: white; width: 100%; margin-top: 15px; display: none; }
-
-        .feedback {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .solution-box {
-            display: none;
-            background: #fff9e6;
-            border: 1px dashed var(--warning);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            line-height: 1.8;
-        }
-
-        .success { background: #dff0d8; color: #3c763d; }
-        .error { background: #f2dede; color: #a94442; }
-    </
+        :root { --primary: #2c3e50; --accent: #3498db; --success: #27ae60; --warning: #f39c12; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 20px; max-width: 600px; width: 100%; }
+        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
+        .task-box { border-left: 5px solid var(--accent); background: #fcfcfc; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .btn-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; }
+        .btn-check { background: var(--primary); }
+        .btn-hint { background: var(--warning); }
+        .solution { display: none; background: #fff9e6; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px dashed var(--warning); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
+    <h3>Összetett vizsgálatok</h3>
+    <div class="task-box">Egy 5x5x8 cm-es kőhasáb tömege 520g. Valódi sűrűsége 2700 kg/m³.</div>
+    <input type="number" id="ans1" placeholder="Testsűrűség [g/cm³]" style="width:100%; padding:10px; margin-bottom:10px;">
+    <div class="btn-row">
+        <button class="btn-check" onclick="alert('Ellenőrizve!')">Ellenőrzés</button>
+        <button class="btn-hint" onclick="document.getElementById('sol').style.display='block'">📚 Megoldás</button>
+    </div>
+    <div id="sol" class="solution">ρt = 520 / 200 = 2.6 g/cm³<br>Tt = 2.6 / 2.7 = 0.96</div>
+</div>
+</body>
+</html>
