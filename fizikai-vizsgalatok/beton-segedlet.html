@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Betontechnológia Segédlet</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 30px; background: #f4f7f6; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #27ae60; }
+        .method { margin-bottom: 30px; padding: 15px; background: #f9f9f9; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background: #27ae60; color: white; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Frissbeton vizsgálati módszerek</h1>
+
+    <div class="method">
+        <h2>1. Roskadásmérés (Abrams-kúp)</h2>
+        <p>A kúpot 3 rétegben töltjük meg, rétegenként 25 szúrással tömörítve. A kúp lehúzása után a beton "összeroskad", ezt a magasságcsökkenést mérjük (t).</p>
+            </div>
+
+    <div class="method">
+        <h2>2. Tömörödési mérték (Walz-módszer)</h2>
+        <p>A tartályt (200x200x400 mm) lazán megtöltjük, majd vibroasztalon tömörítjük. Mérjük a beton szintjének süllyedését (s).</p>
+        <p><b>Képlet:</b> $$c = \frac{h}{h - s}$$</p>
+    </div>
+
+    <div class="method">
+        <h2>3. Terülésmérés (Ejtőasztal)</h2>
+        <p>A betonmintát 15-ször megemeljük és leejtjük az ejtőasztalon. A kialakuló lepény két egymásra merőleges átmérőjének átlagát mérjük (f).</p>
+        <p><b>Képlet:</b> $$f = \frac{d_1 + d_2}{2}$$</p>
+    </div>
+
+    <h2>Konzisztencia osztályok</h2>
+    <table>
+        <tr><th>Osztály</th><th>Roskadás (mm)</th><th>Jellemzés</th></tr>
+        <tr><td>S1</td><td>10 – 40</td><td>kissé képlékeny</td></tr>
+        <tr><td>S2</td><td>50 – 90</td><td>képlékeny</td></tr>
+        <tr><td>S3</td><td>100 – 150</td><td>képlékeny</td></tr>
+        <tr><td>S4</td><td>160 – 210</td><td>folyós</td></tr>
+    </table>
+</div>
+</body>
+</html>
