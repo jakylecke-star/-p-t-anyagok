@@ -32,7 +32,6 @@
             font-weight: 300;
         }
 
-        /* Témaválasztó menü */
         .topic-nav {
             display: flex;
             gap: 15px;
@@ -58,11 +57,6 @@
             box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
         }
 
-        .topic-btn:hover:not(.active) {
-            background: rgba(44, 62, 80, 0.05);
-        }
-
-        /* Tartalmi panelek */
         .content-area {
             max-width: 850px;
             width: 100%;
@@ -82,18 +76,6 @@
             text-align: center;
         }
 
-        .card h3 {
-            margin-top: 0;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        .card p {
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        /* Gomb rács */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -119,21 +101,13 @@
             border-color: var(--accent);
             background: #f0f7ff;
             transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
         }
 
-        .sub-btn span {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-        }
+        .sub-btn span { font-size: 1.8rem; margin-bottom: 12px; }
 
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 500px) {
-            .grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -151,7 +125,7 @@
             <h3>Sűrűség és porozitás vizsgálata</h3>
             <p>Anyagszerkezeti jellemzők meghatározása mérések és számítások alapján.</p>
             <div class="grid">
-                <a href="segedlet.html" class="sub-btn">
+                <a href="segedlet.html#suruseg" class="sub-btn">
                     <span>📖</span> Segédlet
                 </a>
                 <a href="fizikai-vizsgalatok/suruseg.html" class="sub-btn">
@@ -184,11 +158,8 @@
 
     <script>
         function showTopic(id, btn) {
-            // Panel váltás
             document.querySelectorAll('.content-area').forEach(area => area.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            
-            // Gomb stílus váltás
             document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
