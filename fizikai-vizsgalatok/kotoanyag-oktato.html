@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Kötőanyagok Oktató</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .lesson { border-bottom: 2px solid #eee; padding-bottom: 40px; margin-bottom: 40px; }
+        h2 { color: var(--primary); border-left: 5px solid var(--accent); padding-left: 15px; }
+        .step-box { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: move; border: 1px solid #ddd; }
+        .drop-zone { min-height: 50px; background: #e8f5e9; border: 2px dashed var(--accent); border-radius: 10px; padding: 10px; margin-top: 10px; }
+        .check-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        img { max-width: 100%; border-radius: 10px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="../index.html" style="text-decoration:none; color:var(--accent)">← Vissza</a>
+    <h1>Kötőanyagok vizsgálata - Interaktív Tananyag</h1>
 
+    <div class="lesson" id="lesson1">
+        <h2>1. Szemcsefinomság (Szitálás)</h2>
+        <p>A mész szemcsefinomságát 0,2 mm-es és 0,09 mm-es szitákon határozzuk meg.</p>
+        
+        <div class="quiz">
+            <p><b>Feladat: Rakd sorrendbe a mérés lépéseit!</b></p>
+            <div id="szita-steps" class="drop-zone">
+                <div class="step-box" draggable="true" id="s1">10 g mész áteresztése a szitasoron</div>
+                <div class="step-box" draggable="true" id="s2">A mintát zárt edényben összerázzuk, majd pihentetjük</div>
+                <div class="step-box" draggable="true" id="s3">Fennmaradó tömegek lemérése (m0,2 és m0,09)</div>
+            </div>
+            <button class="check-btn" onclick="checkOrder('szita-steps', ['s2', 's1', 's3'])">Ellenőrzés</button>
+        </div>
+    </div>
+
+    <div class="lesson" id="lesson2">
+        <h2>2. Térfogatállandóság (Le Chatelier készülék)</h2>
+        <p>A vizsgálat során mészpépet töltünk a gyűrűbe, majd gőzöljük.</p>
+                <p>Akkor megfelelő, ha a tűhegyek elmozdulása <b>kisebb, mint 20 mm</b>.</p>
+        
+        <div class="quiz">
+            <p><b>Feladat: Rakd sorrendbe a folyamatot!</b></p>
+            <div id="chatelier-steps" class="drop-zone">
+                <div class="step-box" draggable="true" id="c1">Tűhegyek közötti távolság lemérése (kiindulás)</div>
+                <div class="step-box" draggable="true" id="c2">Próbatestek gőzölése 180 percig</div>
+                <div class="step-box" draggable="true" id="c3">75g mész és 20ml víz összekeverése</div>
+                <div class="step-box" draggable="true" id="c4">Lehűlés után újabb mérés a tűhegyek között</div>
+            </div>
+            <button class="check-btn" onclick="checkOrder('chatelier-steps', ['c3', 'c1', 'c2', 'c4'])">Ellenőrzés</button>
+        </div>
+    </div>
+
+    <div class="lesson" id="lesson3">
+        <h2>3. Kötési idő (Vicat-készülék)</h2>
+        <p>A kötés kezdetét és végét acéltű behatolási mélységével mérjük.</p>
+                
+        <div class="quiz">
+            <p><b>Feladat: Rakd sorrendbe a mérést!</b></p>
+            <div id="vicat-steps" class="drop-zone">
+                <div class="step-box" draggable="true" id="v1">Acéltű leeresztése a mészpép felületéig</div>
+                <div class="step-box" draggable="true" id="v2">Tű elengedése és a süllyedés feljegyzése</div>
+                <div class="step-box" draggable="true" id="v3">A mérések ismétlése 10 percenként</div>
+            </div>
+            <button class="check-btn" onclick="checkOrder('vicat-steps', ['v1', 'v2', 'v3'])">Ellenőrzés</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Egyszerű drag and drop logika
+    document.querySelectorAll('.step-box').forEach(box => {
+        box.ondragstart = (e) => e.dataTransfer.setData('text', e.target.id);
+    });
+    
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.ondragover = (e) => e.preventDefault();
+        zone.ondrop = (e) => {
+            e.preventDefault();
+            let id = e.dataTransfer.getData('text');
+            zone.appendChild(document.getElementById(id));
+        };
+    });
+
+    function checkOrder(zoneId, correctIds) {
+        let zone = document.getElementById(zoneId);
+        let currentIds = Array.from(zone.children).map(child => child.id);
+        if(JSON.stringify(currentIds) === JSON.stringify(correctIds)) {
+            alert("✅ Kiváló! A sorrend tökéletes.");
+        } else {
+            alert("❌ Valami nem stimmel. Gondold át a folyamatot!");
+        }
+    }
+</script>
+</body>
+</html>
