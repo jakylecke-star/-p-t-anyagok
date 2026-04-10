@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Sűrűség és Porozitás Gyakorló</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
+        .stat-box { background: #34495e; color: white; padding: 10px; border-radius: 5px; margin-bottom: 20px; font-size: 0.9em; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #2ecc71; }
+        .feedback { margin-top: 15px; padding: 10px; border-radius: 5px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="stat-box">
+        Saját eredményed ezen a gépen: <span id="score">0</span> sikeres feladat
+    </div>
+    
+    <h2>Testsűrűség és Porozitás</h2>
+    <p id="task-text">Adatok betöltése...</p>
+    
+    <label>Testsűrűség (ρ<sub>t</sub>) [g/cm³]:</label>
+    <input type="number" id="rho_t_input" step="0.001" placeholder="pl. 1.625">
+    
+    <label>Testtömörség (T<sub>t</sub>) [tizedesjegy]:</label>
+    <input type="number" id="tt_input" step="0.01" placeholder="pl. 0.85">
+    
+    <button onclick="checkAnswers()">Ellenőrzés és Pont mentése</button>
+    
+    <div id="feedback" class="feedback"></div>
+    <button id="next-btn" style="display:none; margin-top:10px; background: #3498db;" onclick="location.reload()">Új feladat generálása</button>
+</div>
+
+<script>
+    // Pontszám betöltése a böngésző memóriájából
+    let currentScore = localStorage.getItem('constructionScore') || 0;
+    document.getElementById('score').innerText = currentScore;
+
+    // Véletlenszám generátor a feladathoz
+    let m = (Math.random() * (3100 - 2800) + 2800).toFixed(1);
+    let Vt = (Math.random() * (1850 - 1700) + 1700).toFixed(1);
+    let rho = 1800; // kg/m3
+
+    let correct_rho_t = (m / Vt).toFixed(3);
+    let correct_tt = (correct_rho_t / (rho/1000)).toFixed(2);
+
+    document.getElementById('task-text').innerHTML = `
+        <b>Mérési adatok:</b><br>
+        Próbatest tömege (m): <b>${m} g</b><br>
+        Térfogata (V<sub>t</sub>): <b>${Vt} cm³</b><br>
+        Anyagsűrűség (ρ): <b>${rho} kg/m³</b>
+    `;
+
+    function checkAnswers() {
+        let userRho = document.getElementById('rho_t_input').value;
+        let userTt = document.getElementById('tt_input').value;
+        let fb = document.getElementById('feedback');
+
+        if (Math.abs(userRho - correct_rho_t) < 0.01 && Math.abs(userTt - correct_tt) < 0.02) {
+            fb.style.display = "block";
+            fb.style.background = "#d4edda";
+            fb.style.color = "#155724";
+            fb.innerHTML = "<b>Helyes!</b> Megkaptad a pontot.";
+            
+            // Pont növelése és mentése
+            currentScore++;
+            localStorage.setItem('constructionScore', currentScore);
+            document.getElementById('score').innerText = currentScore;
+            document.getElementById('next-btn').style.display = "block";
+        } else {
+            fb.style.display = "block";
+            fb.style.background = "#f8d7da";
+            fb.style.color = "#721c24";
+            fb.innerHTML = `<b>Hiba!</b> A helyes értékek: ρt ≈ ${correct_rho_t}, Tt ≈ ${correct_tt}`;
+        }
+    }
+</script>
+</body>
+</html>
