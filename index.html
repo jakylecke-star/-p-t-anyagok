@@ -2,40 +2,119 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Építőanyag Vizsgálatok</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Építőanyag Labor - Digitális Keretrendszer</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; text-align: center; padding: 50px; background: #f0f2f5; }
-        .menu-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; width: 100%; }
-        h1 { color: #2c3e50; }
-        a { 
-            display: block; 
-            margin: 15px 0; 
-            padding: 15px; 
-            background: #007bff; 
-            color: white; 
-            text-decoration: none; 
-            border-radius: 8px; 
-            font-weight: bold;
-            transition: 0.3s;
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --success: #27ae60;
+            --info: #7f8c8d;
+            --light: #ecf0f1;
         }
-        a:hover { background: #0056b3; transform: scale(1.02); }
-        .btn-segedlet { background: #7f8c8d; } /* Szürke gomb */
-        .btn-segedlet:hover { background: #636e72; }
-        .btn-halado { background: #28a745; } /* Zöld gomb */
-        .btn-halado:hover { background: #218838; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            /* Modern építészeti háttérkép */
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), 
+                        url('https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1000');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            filter: brightness(1.1);
+        }
+
+        .btn-segedlet { background-color: var(--info); }
+        .btn-alap { background-color: var(--accent); }
+        .btn-halado { background-color: var(--success); }
+
+        .footer-text {
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #999;
+        }
     </style>
 </head>
 <body>
     <div class="menu-card">
-        <h1>Építőanyag Szimulátorok</h1>
-        <p>Válassz egy témakört a gyakorláshoz:</p>
+        <h1>Építőanyag Labor</h1>
+        <p class="subtitle">Digitális Mérnöki Gyakorlatok</p>
         
-        <a href="segedlet.html" class="btn-segedlet">📖 Képlettár és Segédlet</a>
-        
-        <a href="fizikai-vizsgalatok/suruseg.html">1. Sűrűség és Porozitás (Alap)</a>
-        
-        <a href="fizikai-vizsgalatok/osszetett-feladatok.html" class="btn-halado">2. Összetett vizsgálatok (Haladó)</a>
-        
+        <div class="nav-links">
+            <a href="segedlet.html" class="btn-segedlet">
+                <span>📖</span> Tudástár és Képletek
+            </a>
+            
+            <a href="fizikai-vizsgalatok/suruseg.html" class="btn-alap">
+                <span>🧪</span> Sűrűség Vizsgálat (Alap)
+            </a>
+            
+            <a href="fizikai-vizsgalatok/osszetett-feladatok.html" class="btn-halado">
+                <span>🏗️</span> Összetett Feladatok (Haladó)
+            </a>
+        </div>
+
+        <div class="footer-text">
+            &copy; 2024 Oktatási Segédlet | Mérnöki alapozó
+        </div>
     </div>
 </body>
 </html>
+
