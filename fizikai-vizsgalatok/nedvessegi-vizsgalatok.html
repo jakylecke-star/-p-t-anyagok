@@ -1,1 +1,40 @@
-
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Nedvesség gyakorló</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #9b59b6; --success: #27ae60; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 100%; }
+        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
+        .task { background: #fcfcfc; border-left: 5px solid var(--accent); padding: 15px; margin-bottom: 15px; }
+        input { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #ddd; border-radius: 8px; }
+        button { width: 100%; padding: 12px; background: var(--success); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
+    <h3>Nedvesség gyakorló</h3>
+    <div id="task-text" class="task">Betöltés...</div>
+    <input type="number" id="userAns" placeholder="Víztartalom [%]">
+    <button onclick="check()">Ellenőrzés</button>
+</div>
+<script>
+    let correct;
+    function gen() {
+        let msz = Math.floor(Math.random() * 2000) + 18000;
+        let mn = msz + (Math.floor(Math.random() * 500) + 300);
+        correct = ((mn - msz) / msz * 100).toFixed(3);
+        document.getElementById('task-text').innerHTML = `Száraz tömeg: ${msz}g, Nedves tömeg: ${mn}g. Számítsd ki a víztartalmat!`;
+    }
+    function check() {
+        let val = document.getElementById('userAns').value;
+        alert(Math.abs(val - correct) < 0.05 ? "✅ Helyes!" : "❌ Rossz! A jó válasz: " + correct);
+        location.reload();
+    }
+    gen();
+</script>
+</body>
+</html>
