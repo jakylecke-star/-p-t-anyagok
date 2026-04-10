@@ -22,10 +22,7 @@
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .container { max-width: 900px; margin: 0 auto; }
 
         .back-btn {
             display: inline-block;
@@ -45,7 +42,6 @@
             border-radius: 20px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         .section-card {
@@ -56,11 +52,8 @@
             margin-bottom: 30px;
         }
 
-        h2 {
-            color: var(--primary);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
+        h2 { color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
+        h3 { color: var(--accent-blue); }
 
         .formula-box {
             background: #f8f9fa;
@@ -72,14 +65,10 @@
             font-weight: bold;
         }
 
-        .nedvesseg-border {
-            border-left-color: var(--accent-purple);
-        }
+        .nedvesseg-formula { border-left-color: var(--accent-purple); }
 
-        ul { padding-left: 20px; }
-        li { margin-bottom: 10px; }
-        
         .highlight { color: #d35400; font-weight: bold; }
+        ul { padding-left: 20px; }
     </style>
 </head>
 <body>
@@ -89,48 +78,43 @@
 
     <div class="header-card">
         <h1>Építőanyag-vizsgálati Segédlet</h1>
-        <p>Képletek és megoldási algoritmusok</p>
+        <p>Képletek és elméleti összefoglaló</p>
     </div>
 
     <div id="suruseg" class="section-card">
-        <h2>1. Testsűrűség és Valódi sűrűség</h2>
-        <p>A különbség a mérésnél figyelembe vett térfogatban van.</p>
+        <h2>1. Sűrűség, Tömörség és Porozitás</h2>
         
+        <h3>Testsűrűség és Valódi sűrűség</h3>
         <div class="formula-box">
-            ρ<sub>t</sub> = m / V<sub>t</sub> [g/cm³ vagy kg/m³]
+            ρ<sub>t</sub> = m / V<sub>t</sub> [g/cm³]<br>
+            ρ = m / V [g/cm³]
         </div>
-        <p><b>V<sub>t</sub>:</b> Külső befoglaló térfogat (pórusokkal együtt).</p>
+        <p>A <b>V<sub>t</sub></b> a teljes külső térfogat, míg a <b>V</b> a pórusok nélküli tömör térfogat.</p>
 
+        <h3>Tömörség és Porozitás</h3>
+        <p>Ezek az értékek megmutatják az anyagszerkezet tömörségét és a hézagok arányát.</p>
         <div class="formula-box">
-            ρ = m / V [g/cm³ vagy kg/m³]
+            T<sub>t</sub> = ρ<sub>t</sub> / ρ [tizedesjegy]<br>
+            P = (1 - T<sub>t</sub>) * 100 [%]
         </div>
-        <p><b>V:</b> Tömör térfogat (pórusok nélkül).</p>
+        <p>Ha a tömörség pl. <span class="highlight">0,85</span>, akkor az anyag <span class="highlight">85%</span>-a szilárd váz, a porozitása pedig <span class="highlight">15%</span>.</p>
     </div>
 
     <div id="nedvesseg" class="section-card">
         <h2>2. Nedvességi vizsgálatok</h2>
-        <p>Az anyagban lévő víz mennyiségét és a felvehető víz maximumát határozzuk meg.</p>
+        <p>A méréseket mindig a <b>száraz tömeghez (m<sub>sz</sub>)</b> viszonyítjuk.</p>
 
         <h3>Víztartalom (w)</h3>
-        <p>Azt mutatja meg, hogy a száraz tömeghez képest mennyi víz van jelenleg az anyagban.</p>
-        <div class="formula-box nedvesseg-border">
+        <div class="formula-box nedvesseg-formula">
             w = [(m<sub>n</sub> - m<sub>sz</sub>) / m<sub>sz</sub>] * 100 [%]
         </div>
-        <ul>
-            <li><b>m<sub>n</sub>:</b> Nedves tömeg (vagy légszáraz tömeg)</li>
-            <li><b>m<sub>sz</sub>:</b> Száraz tömeg (105 °C-on tömegállandóságig szárítva)</li>
-        </ul>
+        <p><b>m<sub>n</sub>:</b> Az anyag aktuális (nedves) tömege.</p>
 
         <h3>Vízfelvétel (w<sub>f</sub>)</h3>
-        <p>Azt mutatja meg, hogy az anyag mennyi vizet képes összesen magába szívni vízalatti tárolás során.</p>
-        <div class="formula-box nedvesseg-border">
+        <div class="formula-box nedvesseg-formula">
             w<sub>f</sub> = [(m<sub>w</sub> - m<sub>sz</sub>) / m<sub>sz</sub>] * 100 [%]
         </div>
-        <ul>
-            <li><b>m<sub>w</sub>:</b> Vízzel telített tömeg (22 °C-os víz alatt tartva tömegállandóságig)</li>
-        </ul>
-        
-        <p><span class="highlight">Fontos:</span> Mindkét értéket a <b>száraz tömeghez</b> (m<sub>sz</sub>) viszonyítjuk!</p>
+        <p><b>m<sub>w</sub>:</b> Vízzel telített tömeg vízalatti tárolás után.</p>
     </div>
 
 </div>
