@@ -5,7 +5,7 @@
     <title>Építőanyag Vizsgálatok</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; text-align: center; padding: 50px; background: #f0f2f5; }
-        .menu-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; }
+        .menu-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; width: 100%; }
         h1 { color: #2c3e50; }
         a { 
             display: block; 
@@ -19,7 +19,9 @@
             transition: 0.3s;
         }
         a:hover { background: #0056b3; transform: scale(1.02); }
-        .btn-halado { background: #28a745; }
+        .btn-segedlet { background: #7f8c8d; } /* Szürke gomb */
+        .btn-segedlet:hover { background: #636e72; }
+        .btn-halado { background: #28a745; } /* Zöld gomb */
         .btn-halado:hover { background: #218838; }
     </style>
 </head>
@@ -27,6 +29,8 @@
     <div class="menu-card">
         <h1>Építőanyag Szimulátorok</h1>
         <p>Válassz egy témakört a gyakorláshoz:</p>
+        
+        <a href="segedlet.html" class="btn-segedlet">📖 Képlettár és Segédlet</a>
         
         <a href="fizikai-vizsgalatok/suruseg.html">1. Sűrűség és Porozitás (Alap)</a>
         
