@@ -1,0 +1,16 @@
+// A generáló logika lényege:
+function generateTask() {
+    if (Math.random() > 0.5) {
+        // Húzószilárdság feladat
+        let a = Math.floor(Math.random() * 10) + 15; // 15-25 mm
+        let force = Math.floor(Math.random() * 3000) + 2000;
+        correct = (force / (a * a)).toFixed(2);
+        document.getElementById('task').innerHTML = `Húzószilárdsági vizsgálatnál egy <b>${a}x${a} mm</b>-es próbatest <b>${force} N</b> erőnél szakadt el. Mennyi a húzószilárdság?`;
+    } else {
+        // Nyomószilárdság feladat
+        let forceKN = Math.floor(Math.random() * 200) + 200;
+        let areaCM2 = 176.7; // Standard D=150 henger
+        correct = (forceKN / areaCM2 * 10).toFixed(2); // Átváltás N/mm2-be
+        document.getElementById('task').innerHTML = `Nyomószilárdsági vizsgálat során egy betonhenger (A = 176,7 cm²) <b>${forceKN} kN</b> erőnél ment tönkre. Számítsa ki a szilárdságot <b>N/mm²</b>-ben!`;
+    }
+}
