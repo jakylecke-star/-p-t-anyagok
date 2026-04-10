@@ -2,23 +2,29 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Nedvesség minták</title>
+    <title>Nedvességi minták</title>
     <style>
         :root { --primary: #2c3e50; --accent: #9b59b6; --bg: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
         .container { background: white; padding: 30px; border-radius: 20px; max-width: 700px; width: 100%; }
-        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
-        .example { background: #f9f9f9; border-left: 5px solid var(--accent); padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: inline-block; margin-bottom: 20px; }
+        .example { background: #f9f9f9; border-left: 5px solid var(--accent); padding: 20px; margin-bottom: 20px; border-radius: 8px; line-height: 1.6; }
+        .highlight { color: #d35400; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="container">
     <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
-    <h2>Nedvességi mintafeladatok</h2>
+    <h1>Nedvességi mintafeladatok</h1>
     <div class="example">
-        <h4>1. feladat: Porotherm elem</h4>
-        <p>Nedves (mn): 19,853 kg | Száraz (msz): 19,153 kg</p>
-        <strong>Víztartalom (w):</strong> ((19.853 - 19.153) / 19.153) * 100 = <b>3,655%</b>
+        <h3>1. feladat: Falazóelem</h3>
+        <p>Adatok: Nedves (m<sub>n</sub>): 19,853 kg | Száraz (m<sub>sz</sub>): 19,153 kg</p>
+        <p>Víztartalom (w): ((19,853 - 19,153) / 19,153) * 100 = <span class="highlight">3,655%</span></p>
+    </div>
+    <div class="example">
+        <h3>2. feladat: Téglablokk</h3>
+        <p>Adatok: Nedves (m<sub>n</sub>): 19 860 g | Száraz (m<sub>sz</sub>): 19 120 g</p>
+        <p>Víztartalom (w): ((19860 - 19120) / 19120) * 100 = <span class="highlight">3,87%</span></p>
     </div>
 </div>
 </body>
