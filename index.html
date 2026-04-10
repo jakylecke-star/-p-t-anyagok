@@ -4,17 +4,34 @@
     <meta charset="UTF-8">
     <title>Építőanyag Vizsgálatok</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f0f2f5; }
-        .menu-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; }
-        a { display: block; margin: 10px; padding: 15px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; padding: 50px; background: #f0f2f5; }
+        .menu-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; }
+        h1 { color: #2c3e50; }
+        a { 
+            display: block; 
+            margin: 15px 0; 
+            padding: 15px; 
+            background: #007bff; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        a:hover { background: #0056b3; transform: scale(1.02); }
+        .btn-halado { background: #28a745; }
+        .btn-halado:hover { background: #218838; }
     </style>
 </head>
 <body>
     <div class="menu-card">
         <h1>Építőanyag Szimulátorok</h1>
-        <p>Válassz egy témakört:</p>
-        <a href="fizikai-vizsgalatok/suruseg.html">1. Sűrűség és Porozitás</a>
-        <a href="fizikai-vizsgalatok/osszetett-feladatok.html">2. Haladó: Összetett vizsgálatok (5 típus)</a>
-        </div>
+        <p>Válassz egy témakört a gyakorláshoz:</p>
+        
+        <a href="fizikai-vizsgalatok/suruseg.html">1. Sűrűség és Porozitás (Alap)</a>
+        
+        <a href="fizikai-vizsgalatok/osszetett-feladatok.html" class="btn-halado">2. Összetett vizsgálatok (Haladó)</a>
+        
+    </div>
 </body>
 </html>
