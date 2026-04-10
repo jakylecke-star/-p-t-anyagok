@@ -41,14 +41,14 @@
         }
 
         .topic-btn {
-            padding: 14px 28px;
+            padding: 12px 24px;
             border: 2px solid var(--primary);
             background: transparent;
             color: var(--primary);
             border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         .topic-btn.active {
@@ -61,7 +61,7 @@
             max-width: 850px;
             width: 100%;
             display: none;
-            animation: slideUp 0.4s ease-out;
+            animation: fadeIn 0.4s ease-out;
         }
 
         .content-area.active {
@@ -78,8 +78,9 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
+            margin-top: 25px;
         }
 
         .sub-btn {
@@ -87,7 +88,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 25px 15px;
+            padding: 20px;
             background: #fcfcfc;
             border: 1px solid #eee;
             border-radius: 15px;
@@ -100,13 +101,13 @@
         .sub-btn:hover {
             border-color: var(--accent);
             background: #f0f7ff;
-            transform: translateY(-4px);
+            transform: translateY(-3px);
         }
 
-        .sub-btn span { font-size: 1.8rem; margin-bottom: 12px; }
+        .sub-btn span { font-size: 1.8rem; margin-bottom: 10px; }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -116,20 +117,20 @@
     <h1>Építőanyag vizsgálatok</h1>
 
     <div class="topic-nav">
-        <button class="topic-btn active" onclick="showTopic('suruseg', this)">1. Sűrűség és porozitás</button>
-        <button class="topic-btn" onclick="showTopic('nedvesseg', this)">2. Nedvességi vizsgálatok</button>
-        <button class="topic-btn" onclick="showTopic('adalekanyag', this)">3. Adalékanyag vizsgálatok</button>
-        <button class="topic-btn" onclick="showTopic('mechanika', this)">4. Mechanikai vizsgálatok</button>
+        <button class="topic-btn active" onclick="showTopic('suruseg', this)">1. Sűrűség</button>
+        <button class="topic-btn" onclick="showTopic('nedvesseg', this)">2. Nedvesség</button>
+        <button class="topic-btn" onclick="showTopic('adalekanyag', this)">3. Adalékanyagok</button>
+        <button class="topic-btn" onclick="showTopic('mechanika', this)">4. Mechanika</button>
+        <button class="topic-btn" onclick="showTopic('kotoanyag', this)">5. Kötőanyagok</button>
     </div>
 
     <div id="suruseg" class="content-area active">
         <div class="card">
-            <h3>Sűrűség és porozitás vizsgálata</h3>
-            <p>Anyagszerkezeti jellemzők meghatározása mérések és számítások alapján.</p>
+            <h3>Sűrűség és porozitás</h3>
+            <p>Anyagszerkezeti jellemzők meghatározása.</p>
             <div class="grid">
                 <a href="segedlet.html#suruseg" class="sub-btn"><span>📖</span> Segédlet</a>
-                <a href="fizikai-vizsgalatok/suruseg.html" class="sub-btn"><span>🧪</span> Alapfeladatok</a>
-                <a href="fizikai-vizsgalatok/osszetett-feladatok.html" class="sub-btn"><span>🏗️</span> Összetett feladatok</a>
+                <a href="fizikai-vizsgalatok/suruseg.html" class="sub-btn"><span>🧪</span> Gyakorlás</a>
             </div>
         </div>
     </div>
@@ -137,35 +138,44 @@
     <div id="nedvesseg" class="content-area">
         <div class="card">
             <h3>Nedvességi vizsgálatok</h3>
-            <p>Víztartalom és vízfelvétel meghatározása tömegkülönbség alapján.</p>
+            <p>Víztartalom és vízfelvétel mérése.</p>
             <div class="grid">
                 <a href="segedlet.html#nedvesseg" class="sub-btn"><span>📖</span> Segédlet</a>
-                <a href="fizikai-vizsgalatok/viz-vizsgalatok-mintak.html" class="sub-btn"><span>📄</span> Mintafeladatok</a>
-                <a href="fizikai-vizsgalatok/nedvessegi-vizsgalatok.html" class="sub-btn"><span>💧</span> Gyakorló feladatok</a>
+                <a href="fizikai-vizsgalatok/nedvessegi-vizsgalatok.html" class="sub-btn"><span>💧</span> Gyakorlás</a>
             </div>
         </div>
     </div>
 
     <div id="adalekanyag" class="content-area">
         <div class="card">
-            <h3>Adalékanyagok minősítése</h3>
-            <p>Szemmegoszlási görbe és szennyezőanyag-tartalom meghatározása.</p>
+            <h3>Adalékanyagok</h3>
+            <p>Szemmegoszlás és szemcseösszetétel.</p>
             <div class="grid">
                 <a href="segedlet.html#adalekanyag" class="sub-btn"><span>📖</span> Segédlet</a>
-                <a href="fizikai-vizsgalatok/adalekanyag-mintak.html" class="sub-btn"><span>📄</span> Mintafeladatok</a>
-                <a href="fizikai-vizsgalatok/adalekanyag-gyakorlo.html" class="sub-btn"><span>🏗️</span> Gyakorló feladatok</a>
+                <a href="fizikai-vizsgalatok/adalekanyag-gyakorlo.html" class="sub-btn"><span>🏗️</span> Gyakorlás</a>
             </div>
         </div>
     </div>
 
     <div id="mechanika" class="content-area">
         <div class="card">
-            <h3>Mechanikai tulajdonságok</h3>
-            <p>Húzó- és nyomószilárdság meghatározása szabványos próbatesteken.</p>
+            <h3>Mechanikai vizsgálatok</h3>
+            <p>Húzó- és nyomószilárdság mérése.</p>
             <div class="grid">
                 <a href="segedlet.html#mechanika" class="sub-btn"><span>📖</span> Segédlet</a>
-                <a href="fizikai-vizsgalatok/mechanika-mintak.html" class="sub-btn"><span>📄</span> Mintafeladatok</a>
-                <a href="fizikai-vizsgalatok/mechanika-gyakorlo.html" class="sub-btn"><span>⚙️</span> Gyakorló feladatok</a>
+                <a href="fizikai-vizsgalatok/mechanika-mintak.html" class="sub-btn"><span>📄</span> Minták</a>
+                <a href="fizikai-vizsgalatok/mechanika-gyakorlo.html" class="sub-btn"><span>⚙️</span> Gyakorlás</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="kotoanyag" class="content-area">
+        <div class="card">
+            <h3>Kötőanyagok vizsgálata</h3>
+            <p>Mész és cement fizikai jellemzői (Vicat, Le Chatelier).</p>
+            <div class="grid">
+                <a href="segedlet.html#kotoanyag" class="sub-btn"><span>📖</span> Segédlet</a>
+                <a href="fizikai-vizsgalatok/kotoanyag-oktato.html" class="sub-btn"><span>🎓</span> Mikrotanítás</a>
             </div>
         </div>
     </div>
