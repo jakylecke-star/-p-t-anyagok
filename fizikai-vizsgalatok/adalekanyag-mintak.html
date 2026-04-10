@@ -2,33 +2,50 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Adalékanyag Minták</title>
+    <title>Adalékanyag Mintafeladatok</title>
     <style>
         :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; justify-content: center; }
         .container { background: white; padding: 30px; border-radius: 20px; max-width: 800px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-        th { background: #f8f9fa; }
-        .highlight { font-weight: bold; color: #d35400; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background: #f8f9fa; color: var(--primary); }
+        .sol { font-weight: bold; color: #d35400; background: #fff4e5; }
+        .formula-card { background: #eef7ee; padding: 15px; border-radius: 10px; border-left: 5px solid var(--accent); margin: 20px 0; }
     </style>
 </head>
 <body>
 <div class="container">
     <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
-    <h2>Adalékanyag Mintafeladatok</h2>
-    
-    <h3>1. Agyag-iszap tartalom számítása</h3>
-    <p>Adatok: V<sub>1</sub> = 22 cm³, V<sub>2</sub> = 478 cm³</p>
-    <p>Számítás: i = (22 / 478) * 100 = <span class="highlight">4,60%</span></p>
-    <p>Minősítés: <b>Q osztály</b> (3% < i ≤ 6%)</p>
+    <h2>Adalékanyag Vizsgálati Minták</h2>
 
-    <h3>2. Szemmegoszlási táblázat részlet</h3>
+    <div class="formula-card">
+        <h3>Agyag-iszap tartalom (i)</h3>
+        <p>V<sub>1</sub> = 22 cm³, V<sub>2</sub> = 478 cm³</p>
+        <p>i = (22 / 478) * 100 = <b>4,60%</b></p>
+    </div>
+
+    <h3>Szemmegoszlási vizsgálat (Jegyzőkönyv)</h3>
+    <p>A minta össztömege: 588 g</p>
     <table>
-        <tr><th>Szita (mm)</th><th>Fennmaradt (g)</th><th>Fennmaradt (%)</th><th>Összes áthullott (%)</th></tr>
-        <tr><td>16</td><td>28</td><td>4,76</td><td class="highlight">95,24</td></tr>
-        <tr><td>8</td><td>120</td><td>20,41</td><td class="highlight">74,83</td></tr>
+        <tr>
+            <th>Szita (mm)</th>
+            <th>Fennmaradt (g)</th>
+            <th>Fennmaradt (%)</th>
+            <th>Összes fennm. (%)</th>
+            <th>Összes áthullott (%)</th>
+        </tr>
+        <tr><td>24</td><td>0</td><td>0,00</td><td>0,00</td><td>100,00</td></tr>
+        <tr><td>16</td><td>28</td><td>4,76</td><td>4,76</td><td class="sol">95,24</td></tr>
+        <tr><td>8</td><td>120</td><td>20,41</td><td class="sol">25,17</td><td>74,83</td></tr>
+        <tr><td>4</td><td>120</td><td>20,41</td><td>45,58</td><td class="sol">54,42</td></tr>
+        <tr><td>2</td><td>88</td><td>14,97</td><td class="sol">60,55</td><td>39,45</td></tr>
+        <tr><td>1</td><td>70</td><td>11,90</td><td>72,45</td><td>27,55</td></tr>
+        <tr><td>0,5</td><td>65</td><td>11,05</td><td>83,50</td><td>16,50</td></tr>
+        <tr><td>0,25</td><td>45</td><td>7,65</td><td class="sol">91,15</td><td>8,85</td></tr>
+        <tr><td>0,063</td><td>40</td><td>6,80</td><td>97,95</td><td>2,05</td></tr>
+        <tr><td>tál</td><td>12</td><td>2,05</td><td>100,00</td><td>0,00</td></tr>
     </table>
 </div>
 </body>
