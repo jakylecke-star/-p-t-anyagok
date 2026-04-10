@@ -8,45 +8,48 @@
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; justify-content: center; }
         .container { background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
-        .task-card { background: #fdf2f2; border-left: 5px solid var(--accent); padding: 20px; border-radius: 10px; margin-bottom: 20px; line-height: 1.6; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; }
-        button { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .task-card { background: #fff5f5; border-left: 5px solid var(--accent); padding: 20px; margin-bottom: 20px; border-radius: 10px; line-height: 1.6; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; }
     </style>
 </head>
 <body>
 <div class="container">
     <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
-    <h3 id="title">Feladat...</h3>
+    <h2 id="title">Betöltés...</h2>
     <div id="task" class="task-card"></div>
-    <label>Eredmény (N/mm²):</label>
-    <input type="number" id="ans" step="0.01">
+    <label>Számított érték (N/mm²):</label>
+    <input type="number" id="userAns" step="0.01" placeholder="Pl: 21.39">
     <button onclick="check()">Ellenőrzés</button>
 </div>
 
 <script>
     let correct;
     function generate() {
-        if(Math.random() > 0.5) {
-            document.getElementById('title').innerText = "Húzószilárdság számítása";
-            let a = Math.floor(Math.random() * 10) + 15;
-            let f = Math.floor(Math.random() * 3000) + 3000;
-            correct = (f / (a*a)).toFixed(2);
-            document.getElementById('task').innerHTML = `Egy <b>${a}x${a} mm</b> keresztmetszetű fa próbatest szakítóereje <b>${f} N</b>. Számítsa ki a húzószilárdságot!`;
+        const isHuzo = Math.random() > 0.5;
+        if(isHuzo) {
+            document.getElementById('title').innerText = "Húzószilárdság (f_t)";
+            let a = Math.floor(Math.random() * 6) + 18; // 18-23mm
+            let force = Math.floor(Math.random() * 2000) + 4000;
+            correct = (force / (a * a)).toFixed(2);
+            document.getElementById('task').innerHTML = `Egy fa próbatest keresztmetszete <b>${a}x${a} mm</b>. A mért szakítóerő <b>${force} N</b>. Mennyi az anyag húzószilárdsága?`;
         } else {
-            document.getElementById('title').innerText = "Nyomószilárdság számítása";
-            let fkn = (Math.random() * 200 + 200).toFixed(1);
-            let area = 176.7;
-            correct = (fkn / area * 10).toFixed(2);
-            document.getElementById('task').innerHTML = `Egy betonhenger (A = <b>176,7 cm²</b>) nyomóereje <b>${fkn} kN</b>. Mennyi a nyomószilárdság <b>N/mm²</b>-ben?`;
+            document.getElementById('title').innerText = "Nyomószilárdság (f_c)";
+            let forceKN = (Math.random() * 150 + 300).toFixed(1);
+            let areaCM2 = 176.7;
+            // f = (kN/cm2) * 10 -> N/mm2
+            correct = (forceKN / areaCM2 * 10).toFixed(2);
+            document.getElementById('task').innerHTML = `Egy betonhenger (A = <b>176,7 cm²</b>) nyomóereje <b>${forceKN} kN</b>. Számítsa ki a nyomószilárdságot <b>N/mm²</b>-ben!`;
         }
     }
+
     function check() {
-        let u = document.getElementById('ans').value;
-        if(Math.abs(u - correct) < 0.1) {
-            alert("✅ Helyes! Megoldás: " + correct + " N/mm²");
+        let val = document.getElementById('userAns').value;
+        if(Math.abs(val - correct) < 0.1) {
+            alert("✅ Helyes válasz! (" + correct + " N/mm²)");
             location.reload();
         } else {
-            alert("❌ Hibás! A helyes (vastagított) megoldás: " + correct);
+            alert("❌ Próbáld újra! A helyes (vastagon szedett) érték: " + correct + " N/mm²");
         }
     }
     generate();
