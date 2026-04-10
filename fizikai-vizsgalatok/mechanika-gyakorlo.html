@@ -1,16 +1,55 @@
-// A generáló logika lényege:
-function generateTask() {
-    if (Math.random() > 0.5) {
-        // Húzószilárdság feladat
-        let a = Math.floor(Math.random() * 10) + 15; // 15-25 mm
-        let force = Math.floor(Math.random() * 3000) + 2000;
-        correct = (force / (a * a)).toFixed(2);
-        document.getElementById('task').innerHTML = `Húzószilárdsági vizsgálatnál egy <b>${a}x${a} mm</b>-es próbatest <b>${force} N</b> erőnél szakadt el. Mennyi a húzószilárdság?`;
-    } else {
-        // Nyomószilárdság feladat
-        let forceKN = Math.floor(Math.random() * 200) + 200;
-        let areaCM2 = 176.7; // Standard D=150 henger
-        correct = (forceKN / areaCM2 * 10).toFixed(2); // Átváltás N/mm2-be
-        document.getElementById('task').innerHTML = `Nyomószilárdsági vizsgálat során egy betonhenger (A = 176,7 cm²) <b>${forceKN} kN</b> erőnél ment tönkre. Számítsa ki a szilárdságot <b>N/mm²</b>-ben!`;
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Mechanikai Gyakorló</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #c0392b; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
+        .task-card { background: #fdf2f2; border-left: 5px solid var(--accent); padding: 20px; border-radius: 10px; margin-bottom: 20px; line-height: 1.6; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; }
+        button { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
+    <h3 id="title">Feladat...</h3>
+    <div id="task" class="task-card"></div>
+    <label>Eredmény (N/mm²):</label>
+    <input type="number" id="ans" step="0.01">
+    <button onclick="check()">Ellenőrzés</button>
+</div>
+
+<script>
+    let correct;
+    function generate() {
+        if(Math.random() > 0.5) {
+            document.getElementById('title').innerText = "Húzószilárdság számítása";
+            let a = Math.floor(Math.random() * 10) + 15;
+            let f = Math.floor(Math.random() * 3000) + 3000;
+            correct = (f / (a*a)).toFixed(2);
+            document.getElementById('task').innerHTML = `Egy <b>${a}x${a} mm</b> keresztmetszetű fa próbatest szakítóereje <b>${f} N</b>. Számítsa ki a húzószilárdságot!`;
+        } else {
+            document.getElementById('title').innerText = "Nyomószilárdság számítása";
+            let fkn = (Math.random() * 200 + 200).toFixed(1);
+            let area = 176.7;
+            correct = (fkn / area * 10).toFixed(2);
+            document.getElementById('task').innerHTML = `Egy betonhenger (A = <b>176,7 cm²</b>) nyomóereje <b>${fkn} kN</b>. Mennyi a nyomószilárdság <b>N/mm²</b>-ben?`;
+        }
     }
-}
+    function check() {
+        let u = document.getElementById('ans').value;
+        if(Math.abs(u - correct) < 0.1) {
+            alert("✅ Helyes! Megoldás: " + correct + " N/mm²");
+            location.reload();
+        } else {
+            alert("❌ Hibás! A helyes (vastagított) megoldás: " + correct);
+        }
+    }
+    generate();
+</script>
+</body>
+</html>
