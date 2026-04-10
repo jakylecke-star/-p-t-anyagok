@@ -2,111 +2,118 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Összetett Vizsgálatok - Megoldással</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Összetett Vizsgálatok - Labor</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; display: flex; justify-content: center; padding: 20px; }
-        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
-        .task-box { border-left: 5px solid #3498db; padding: 15px; margin-bottom: 25px; background: #f9f9f9; }
-        .input-row { margin-bottom: 15px; }
-        label { display: block; font-size: 0.9em; color: #666; margin-bottom: 5px; }
-        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .button-group { display: flex; gap: 10px; margin-top: 20px; }
-        button { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .check-btn { background: #3498db; color: white; }
-        .hint-btn { background: #f39c12; color: white; }
-        .next-btn { background: #2ecc71; color: white; display: none; width: 100%; margin-top: 10px; }
-        .feedback { padding: 15px; border-radius: 6px; margin-top: 20px; display: none; }
-        .solution-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; margin-top: 20px; display: none; border-radius: 6px; font-size: 0.95em; line-height: 1.6; }
-        .success { background: #d4edda; color: #155724; }
-        .error { background: #f8d7da; color: #721c24; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h2 id="task-title">Feladat</h2>
-    <div class="task-box" id="task-description"></div>
-
-    <div id="inputs-container"></div>
-
-    <div class="button-group">
-        <button class="check-btn" onclick="checkAnswers()">Ellenőrzés</button>
-        <button class="hint-btn" onclick="showSolution()">Megoldás mutatása</button>
-    </div>
-
-    <div id="feedback" class="feedback"></div>
-    <div id="solution" class="solution-box"></div>
-    
-    <button class="next-btn" id="next-btn" onclick="location.reload()">Következő feladat</button>
-</div>
-
-<script>
-    const tasks = [
-        {
-            title: "Terméskő vizsgálata",
-            generate: function() {
-                const m = (Math.random() * (600 - 500) + 500).toFixed(1);
-                const V = 200; 
-                const rho_v = 2700;
-                const rhot = m / V;
-                const tt = rhot / (rho_v / 1000);
-                return {
-                    title: this.title, // EZ JAVÍTJA AZ UNDEFINED HIBÁT
-                    text: `A kőhasáb (5x5x8 cm) tömege ${m} g. Valódi sűrűsége ${rho_v} kg/m³.`,
-                    steps: `<b>Levezetés:</b><br>1. Térfogat (Vt) = 5 * 5 * 8 = 200 cm³<br>2. Testsűrűség (ρt) = m / Vt = ${m} / 200 = <b>${rhot.toFixed(3)} g/cm³</b><br>3. Tömörség (Tt) = ρt / ρ = ${rhot.toFixed(3)} / 2.7 = <b>${tt.toFixed(2)}</b>`,
-                    questions: [{ ans: rhot, tol: 0.01 }, { ans: tt, tol: 0.02 }],
-                    labels: ["Testsűrűség (ρt) [g/cm³]", "Tömörség (Tt) [tizedes]"]
-                };
-            }
-        },
-        {
-            title: "Égetett agyagtégla",
-            generate: function() {
-                const m = (Math.random() * (3500 - 3000) + 3000).toFixed(0);
-                const Vt = 1850;
-                const rho = 2650;
-                const rhot_kg = (m / Vt) * 1000;
-                const pt = (1 - (rhot_kg / rho)) * 100;
-                return {
-                    title: this.title, // EZ JAVÍTJA AZ UNDEFINED HIBÁT
-                    text: `A tégla tömege ${m} g, külső térfogata ${Vt} cm³. Valódi sűrűsége ${rho} kg/m³.`,
-                    steps: `<b>Levezetés:</b><br>1. Testsűrűség (ρt) = (${m} / ${Vt}) * 1000 = <b>${rhot_kg.toFixed(0)} kg/m³</b><br>2. Porozitás (Pt) = (1 - ρt / ρ) * 100 = (1 - ${rhot_kg.toFixed(0)} / ${rho}) * 100 = <b>${pt.toFixed(2)} %</b>`,
-                    questions: [{ ans: rhot_kg, tol: 10 }, { ans: pt, tol: 0.5 }],
-                    labels: ["Testsűrűség [kg/m³]", "Porozitás [%]"]
-                };
-            }
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --bg: #f4f7f6;
         }
-    ];
 
-    const currentData = tasks[Math.floor(Math.random() * tasks.length)].generate();
-    
-    // Most már nem lesz undefined, mert a generate() visszaadja a címet
-    document.getElementById('task-title').innerText = currentData.title; 
-    document.getElementById('task-description').innerHTML = currentData.text;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    const inputContainer = document.getElementById('inputs-container');
-    currentData.questions.forEach((q, i) => {
-        inputContainer.innerHTML += `<div class="input-row"><label>${currentData.labels[i]}</label><input type="number" id="ans-${i}"></div>`;
-    });
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
 
-    function checkAnswers() {
-        let ok = true;
-        currentData.questions.forEach((q, i) => {
-            const val = parseFloat(document.getElementById(`ans-${i}`).value);
-            if (isNaN(val) || Math.abs(val - q.ans) > q.tol) ok = false;
-        });
-        const fb = document.getElementById('feedback');
-        fb.style.display = "block";
-        fb.className = "feedback " + (ok ? "success" : "error");
-        fb.innerHTML = ok ? "🎉 Helyes!" : "❌ Valami nem jó, próbáld újra vagy nézd meg a levezetést!";
-        if(ok) document.getElementById('next-btn').style.display = "block";
-    }
+        .back-link {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
 
-    function showSolution() {
-        const sBox = document.getElementById('solution');
-        sBox.style.display = "block";
-        sBox.innerHTML = currentData.steps;
-    }
-</script>
-</body>
-</html>
+        .back-link:hover { transform: translateX(-5px); }
+
+        h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--bg); padding-bottom: 10px; }
+
+        .task-box {
+            background: #fcfcfc;
+            border: 1px solid #eee;
+            border-left: 5px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+
+        .input-group { margin-bottom: 20px; }
+
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 8px rgba(52, 152, 219, 0.2); }
+
+        .btn-row { display: flex; gap: 10px; margin-top: 25px; }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1em;
+        }
+
+        .btn-check { background: var(--primary); color: white; }
+        .btn-check:hover { background: #1a252f; }
+
+        .btn-hint { background: var(--warning); color: white; }
+        .btn-hint:hover { opacity: 0.9; }
+
+        .btn-next { background: var(--success); color: white; width: 100%; margin-top: 15px; display: none; }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .solution-box {
+            display: none;
+            background: #fff9e6;
+            border: 1px dashed var(--warning);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        .success { background: #dff0d8; color: #3c763d; }
+        .error { background: #f2dede; color: #a94442; }
+    </
