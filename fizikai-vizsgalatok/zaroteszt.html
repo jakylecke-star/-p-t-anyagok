@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Záróvizsga Teszt</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .question-card { border-bottom: 2px solid #eee; padding: 20px 0; }
+        .options label { display: block; background: #f9f9f9; padding: 10px; margin: 5px 0; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .options label:hover { background: #f0f0f0; }
+        .score-box { position: sticky; top: 10px; background: var(--primary); color: white; padding: 15px; border-radius: 10px; text-align: center; z-index: 100; margin-bottom: 20px; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 1.2rem; cursor: pointer; margin-top: 20px; }
+        .sortable-item { padding: 10px; background: #fff; border: 1px solid #ccc; margin: 5px; cursor: move; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="quiz-header" class="score-box">Záróvizsga: 40 véletlenszerű kérdés</div>
+    <div id="quiz-container"></div>
+    <button onclick="evaluateQuiz()" class="btn-submit">Vizsga befejezése és kiértékelés</button>
+</div>
+
+<script>
+const allQuestions = [
+    // EGYSZERES VÁLASZTÁS
+    { type: 'single', q: 'Mi az areométer?', options: ['Sűrűségmérő eszköz', 'Hőmérő', 'Nedvességmérő'], correct: 0 },
+    { type: 'single', q: 'Mit jelent a duiktilitás?', options: ['Keménység', 'Képlékeny alakíthatóság', 'Fagyállóság'], correct: 1 },
+    { type: 'single', q: 'Miből áll a beton?', options: ['Víz és homok', 'Kötőanyag, adalékanyag és víz', 'Cement és mész'], correct: 1 },
+    
+    // TÖBBSZÖRÖS VÁLASZTÁS
+    { type: 'multiple', q: 'Melyek a mechanikai tulajdonságok? (Válassz többet!)', options: ['Nyomószilárdság', 'Szín', 'Húzószilárdság', 'Sűrűség'], correct: [0, 2] },
+    
+    // SORBA RENDEZÉS (Egyszerűsített verzió: indexszel adják meg)
+    { type: 'order', q: 'Rendezd sorrendbe a betonozás lépéseit: (1. Keverés, 2. Bedolgozás, 3. Utókezelés)', options: ['Keverés', 'Bedolgozás', 'Utókezelés'], correct: [0, 1, 2] }
+    
+    // ... ide jöhet a többi 65 kérdés hasonló formátumban
+];
+
+let activeQuestions = [];
+
+function initQuiz() {
+    // Kérdések megkeverése és 40 kiválasztása
+    const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+    activeQuestions = shuffled.slice(0, 40);
+    
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+
+    activeQuestions.forEach((q, i) => {
+        let html = `<div class="question-card"><h3>${i+1}. ${q.q}</h3><div class="options">`;
+        
+        if(q.type === 'single') {
+            q.options.forEach((opt, oi) => {
+                html += `<label><input type="radio" name="q${i}" value="${oi}"> ${opt}</label>`;
+            });
+        } else if(q.type === 'multiple') {
+            q.options.forEach((opt, oi) => {
+                html += `<label><input type="checkbox" name="q${i}" value="${oi}"> ${opt}</label>`;
+            });
+        } else if(q.type === 'order') {
+            html += `<p>Add meg a helyes sorrend számait (pl. 123):</p><input type="text" id="q${i}" class="order-input">`;
+            html += `<ul style="font-size: 0.9em; color: #666;">${q.options.map((o, idx) => `<li>${idx+1}. ${o}</li>`).join('')}</ul>`;
+        }
+        
+        html += `</div></div>`;
+        container.innerHTML += html;
+    });
+}
+
+function evaluateQuiz() {
+    let score = 0;
+    activeQuestions.forEach((q, i) => {
+        if(q.type === 'single') {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            if(selected && parseInt(selected.value) === q.correct) score++;
+        } else if(q.type === 'multiple') {
+            const selected = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
+            if(JSON.stringify(selected.sort()) === JSON.stringify(q.correct.sort())) score++;
+        } else if(q.type === 'order') {
+            const val = document.getElementById(`q${i}`).value.split('').map(n => parseInt(n)-1);
+            if(JSON.stringify(val) === JSON.stringify(q.correct)) score++;
+        }
+    });
+
+    const percent = (score / 40) * 100;
+    const result = percent >= 40 ? "SIKERES" : "SIKERTELEN";
+    
+    alert(`Eredmény: ${score}/40 pont (${percent.toFixed(1)}%)\nVizsga állapota: ${result}`);
+    if(confirm("Szeretnél új vizsgát kezdeni?")) {
+        location.reload();
+    }
+}
+
+initQuiz();
+</script>
+</body>
+</html>
