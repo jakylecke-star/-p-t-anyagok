@@ -2,57 +2,93 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sűrűség és porozitás gyakorló</title>
+    <title>Sűrűség Gyakorló</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #3498db; --success: #27ae60; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; margin: 0; }
-        .container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
-        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: inline-block; margin-bottom: 20px; }
-        .stat-box { background: var(--primary); color: white; padding: 12px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9em; text-align: center; }
-        .task-card { background: #f8f9fa; border-left: 5px solid var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 20px; line-height: 1.6; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: var(--success); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        .feedback { margin-top: 20px; padding: 15px; border-radius: 10px; display: none; text-align: center; font-weight: bold; }
+        :root { --primary: #2c3e50; --accent: #3498db; --success: #27ae60; --error: #e74c3c; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
+        h2 { color: var(--primary); margin-top: 0; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        
+        .button-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .check-btn { background: var(--primary); color: white; }
+        .sol-btn { background: #95a5a6; color: white; display: none; }
+        
+        #feedback { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; line-height: 1.5; }
+        .back-link { display: block; margin-bottom: 20px; text-decoration: none; color: var(--accent); font-weight: bold; }
     </style>
 </head>
 <body>
-<div class="container">
-    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
-    <div class="stat-box">Saját eredményed: <span id="score">0</span> sikeres feladat</div>
-    <h2>Sűrűség és porozitás</h2>
-    <div class="task-card"><p id="task-text">Adatok betöltése...</p></div>
-    <label>Testsűrűség (ρ<sub>t</sub>) [g/cm³]:</label>
-    <input type="number" id="rho_t_input" step="0.001">
-    <label>Testtömörség (T<sub>t</sub>) [tizedes]:</label>
-    <input type="number" id="tt_input" step="0.01">
-    <button onclick="checkAnswers()">Ellenőrzés és mentés</button>
-    <div id="feedback" class="feedback"></div>
-    <button id="next-btn" style="display:none; background: var(--accent);" onclick="location.reload()">Új feladat generálása ↻</button>
+
+<div class="card">
+    <a href="../index.html" class="back-link">← Vissza</a>
+    <h2>Sűrűség számítása</h2>
+    <p id="task-text">Töltés...</p>
+
+    <div class="input-group">
+        <label>Eredmény (g/cm³):</label>
+        <input type="number" id="userAns" step="0.01" placeholder="Írd ide a számolt értéket">
+    </div>
+
+    <div class="button-group">
+        <button onclick="checkAnswer()" class="check-btn">Ellenőrzés</button>
+        <button onclick="showSolution()" id="solBtn" class="sol-btn">Megoldás megmutatása</button>
+    </div>
+
+    <div id="feedback">
+        <div id="status-text"></div>
+        <div id="solution-text" style="display:none; margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); pt: 10px; font-weight: bold;"></div>
+    </div>
 </div>
+
 <script>
-    let currentScore = localStorage.getItem('constructionScore') || 0;
-    document.getElementById('score').innerText = currentScore;
-    let m = (Math.random() * (3100 - 2800) + 2800).toFixed(1);
-    let Vt = (Math.random() * (1850 - 1700) + 1700).toFixed(1);
-    let rho = 1800; 
-    let correct_rho_t = (m / Vt).toFixed(3);
-    let correct_tt = (correct_rho_t / (rho/1000)).toFixed(2);
-    document.getElementById('task-text').innerHTML = `<b>Mérési adatok:</b><br>Tömeg (m): ${m} g<br>Térfogat (V<sub>t</sub>): ${Vt} cm³<br>Anyagsűrűség (ρ): ${rho} kg/m³`;
-    function checkAnswers() {
-        let userRho = document.getElementById('rho_t_input').value;
-        let userTt = document.getElementById('tt_input').value;
-        let fb = document.getElementById('feedback');
-        if (Math.abs(userRho - correct_rho_t) < 0.01 && Math.abs(userTt - correct_tt) < 0.02) {
-            fb.style.display = "block"; fb.style.background = "#d4edda"; fb.style.color = "#155724"; fb.innerHTML = "✅ Helyes!";
-            currentScore++; localStorage.setItem('constructionScore', currentScore);
-            document.getElementById('score').innerText = currentScore;
-            document.getElementById('next-btn').style.display = "block";
+    let m, V, correctAns;
+
+    function generateTask() {
+        m = (Math.random() * 100 + 50).toFixed(1); // 50-150g
+        V = (Math.random() * 30 + 20).toFixed(1);  // 20-50cm3
+        correctAns = (m / V).toFixed(2);
+        document.getElementById('task-text').innerHTML = `Egy minta tömege <b>${m} g</b>, térfogata <b>${V} cm³</b>. Mekkora a sűrűsége?`;
+        
+        // Reset felület
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('solBtn').style.display = 'none';
+        document.getElementById('userAns').value = '';
+    }
+
+    function checkAnswer() {
+        const userVal = document.getElementById('userAns').value;
+        const feedback = document.getElementById('feedback');
+        const status = document.getElementById('status-text');
+        const solBtn = document.getElementById('solBtn');
+        const solText = document.getElementById('solution-text');
+
+        feedback.style.display = 'block';
+        solText.style.display = 'none';
+
+        if (Math.abs(userVal - correctAns) < 0.05) {
+            feedback.style.backgroundColor = '#d4edda';
+            feedback.style.color = '#155724';
+            status.innerHTML = "✅ <b>Helyes megoldás!</b> Ügyes vagy.";
+            solBtn.style.display = 'none';
         } else {
-            fb.style.display = "block"; fb.style.background = "#f8d7da"; fb.style.color = "#721c24";
-            fb.innerHTML = `❌ Hiba! Helyes: ρt ≈ ${correct_rho_t}, Tt ≈ ${correct_tt}`;
+            feedback.style.backgroundColor = '#f8d7da';
+            feedback.style.color = '#721c24';
+            status.innerHTML = "❌ <b>Sajnos nem jó.</b> Ellenőrizd a számítást!";
+            solBtn.style.display = 'inline-block';
+            solText.innerHTML = `Helyes képlet: ρ = m / V <br> Számítás: ${m} / ${V} = ${correctAns} g/cm³`;
         }
     }
+
+    function showSolution() {
+        document.getElementById('solution-text').style.display = 'block';
+    }
+
+    generateTask();
 </script>
+
 </body>
 </html>
