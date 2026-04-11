@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <title>Beton Gyakorló</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #eef2f3; }
-        .card { background: white; padding: 20px; border-radius: 10px; max-width: 500px; }
-        input { width: 60px; padding: 5px; }
-        button { background: #2c3e50; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        body { font-family: sans-serif; padding: 20px; text-align: center; }
+        .quiz-box { display: inline-block; text-align: left; background: #e8f5e9; padding: 20px; border-radius: 15px; }
+        input { padding: 8px; margin: 10px 0; width: 100px; }
+        button { padding: 10px 20px; background: #2e7d32; color: white; border: none; cursor: pointer; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>Gyakorló feladat</h2>
-        <p>Egy terülésmérés során a mért átmérők: $d_1 = 410\text{ mm}$ és $d_2 = 430\text{ mm}$.</p>
-        <p>Mekkora a terülési érték ($f$)? <input type="number" id="ans1"> mm</p>
+    <div class="quiz-box">
+        <h3>Gyakorló feladat</h3>
+        <p>Terülésmérés során d1 = 430 mm és d2 = 450 mm.</p>
+        <p>Számold ki az 'f' értéket: <input type="number" id="f_val"> mm</p>
         <button onclick="check()">Ellenőrzés</button>
-        <p id="res"></p>
+        <p id="feedback"></p>
     </div>
 
     <script>
         function check() {
-            let val = document.getElementById('ans1').value;
-            if(val == 420) {
-                document.getElementById('res').innerHTML = "✅ Helyes! Ez az **F3** terülési osztály.";
+            let val = document.getElementById('f_val').value;
+            if(val == 440) {
+                document.getElementById('feedback').innerHTML = "✅ Helyes! Ez az <b>F3</b> osztály.";
             } else {
-                document.getElementById('res').innerHTML = "❌ Próbáld újra! Segítség: $(410+430)/2$.";
+                document.getElementById('feedback').innerHTML = "❌ Nem jó. Átlagolj: (430+450)/2";
             }
         }
     </script>
