@@ -11,6 +11,7 @@
             --bg: #f4f7f6;
             --white: #ffffff;
             --text: #333;
+            --exam: #8e44ad;
         }
 
         body {
@@ -55,6 +56,16 @@
             background: var(--primary);
             color: var(--white);
             box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
+        }
+
+        /* Külön stílus a vizsga gombnak */
+        .exam-btn {
+            border-color: var(--exam);
+            color: var(--exam);
+        }
+        .exam-btn.active {
+            background: var(--exam);
+            border-color: var(--exam);
         }
 
         .content-area {
@@ -123,6 +134,7 @@
         <button class="topic-btn" onclick="showTopic('mechanika', this)">4. Mechanika</button>
         <button class="topic-btn" onclick="showTopic('kotoanyag', this)">5. Kötőanyagok</button>
         <button class="topic-btn" onclick="showTopic('beton', this)">6. Betontechnológia</button>
+        <button class="topic-btn exam-btn" onclick="showTopic('zarovizsga', this)">7. Záróvizsga</button>
     </div>
 
     <div id="suruseg" class="content-area active">
@@ -161,7 +173,7 @@
     <div id="mechanika" class="content-area">
         <div class="card">
             <h3>Mechanikai vizsgálatok</h3>
-            <p>Húzó- és nyomószilárdság mérése saját példákkal.</p>
+            <p>Nyomószilárdsági mérések és számítások.</p>
             <div class="grid">
                 <a href="segedlet.html#mechanika" class="sub-btn"><span>📖</span> Segédlet</a>
                 <a href="fizikai-vizsgalatok/mechanika-mintak.html" class="sub-btn"><span>📄</span> Minták</a>
@@ -173,10 +185,11 @@
     <div id="kotoanyag" class="content-area">
         <div class="card">
             <h3>Kötőanyagok vizsgálata</h3>
-            <p>Mész és cement fizikai jellemzői (Vicat, Le Chatelier).</p>
+            <p>Mész és cement fizikai jellemzői.</p>
             <div class="grid">
                 <a href="segedlet.html#kotoanyag" class="sub-btn"><span>📖</span> Segédlet</a>
                 <a href="fizikai-vizsgalatok/kotoanyag-oktato.html" class="sub-btn"><span>🎓</span> Mikrotanítás</a>
+                <a href="fizikai-vizsgalatok/kotoanyag-gyakorlo.html" class="sub-btn"><span>🧪</span> Gyakorlás</a>
             </div>
         </div>
     </div>
@@ -184,7 +197,7 @@
     <div id="beton" class="content-area">
         <div class="card">
             <h3>Betontechnológia</h3>
-            <p>Frissbeton konzisztencia: roskadás, tömörödés és terülés.</p>
+            <p>Frissbeton konzisztencia vizsgálatok.</p>
             <div class="grid">
                 <a href="fizikai-vizsgalatok/beton-segedlet.html" class="sub-btn"><span>📖</span> Segédlet</a>
                 <a href="fizikai-vizsgalatok/beton-mintak.html" class="sub-btn"><span>📄</span> Mintafeladat</a>
@@ -193,27 +206,27 @@
         </div>
     </div>
 
-    <button class="topic-btn" onclick="showTopic('zarovizsga', this)">7. Záróvizsga teszt</button>
-
-<div id="zarovizsga" class="content-area">
-    <div class="card">
-        <h3>Összetett Záróvizsga Teszt</h3>
-        <p>40 véletlenszerű kérdés a teljes tananyagból. A sikeres teljesítéshez 40% szükséges.</p>
-        <div class="grid">
-            <a href="fizikai-vizsgalatok/zaroteszt.html" class="sub-btn"><span>📝</span> Teszt indítása</a>
+    <div id="zarovizsga" class="content-area">
+        <div class="card">
+            <h3 style="color: var(--exam);">Összetett Záróvizsga</h3>
+            <p>Teszt a teljes tananyagból (40 véletlenszerű kérdés).<br>Sikerességi küszöb: 40%</p>
+            <div class="grid">
+                <a href="fizikai-vizsgalatok/zaroteszt.html" class="sub-btn" style="border-color: var(--exam);"><span>📝</span> Vizsga indítása</a>
+            </div>
         </div>
     </div>
-</div>
 
     <script>
         function showTopic(id, btn) {
             // Minden tartalom elrejtése
             document.querySelectorAll('.content-area').forEach(area => area.classList.remove('active'));
+            
             // A kiválasztott tartalom megjelenítése
             const selectedArea = document.getElementById(id);
             if (selectedArea) {
                 selectedArea.classList.add('active');
             }
+            
             // Gombok stílusának frissítése
             document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
