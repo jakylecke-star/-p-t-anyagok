@@ -2,122 +2,127 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Komplex Szemmegoszlás Vizsgálat</title>
+    <title>Adalékanyag Gyakorló</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; }
-        .container { background: white; padding: 30px; border-radius: 20px; max-width: 900px; margin: 0 auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
+        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
+        h2 { color: var(--primary); margin-top: 0; }
+        .task-box { background: #fffde7; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid #fbc02d; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-        th { background: var(--primary); color: white; font-size: 0.85em; }
+        th { background: #f8f9fa; font-size: 0.9em; }
         
-        input { width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; }
-        input.error { border: 2px solid #e74c3c; background: #fdf2f2; }
-        input.success { border: 2px solid #27ae60; background: #f2f9f2; }
+        .input-group { margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         
-        .controls { margin-top: 20px; display: flex; gap: 10px; }
-        button { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-check { background: var(--accent); color: white; flex: 2; }
-        .btn-new { background: #3498db; color: white; flex: 1; }
+        .button-group { display: flex; gap: 10px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .check-btn { background: var(--primary); color: white; }
+        .sol-btn { background: #95a5a6; color: white; display: none; }
         
-        .info-box { background: #eef7ee; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid var(--accent); }
+        #feedback { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; }
+        .back-link { display: block; margin-bottom: 20px; text-decoration: none; color: var(--accent); font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
-    <h2>Komplex Szemmegoszlási Vizsgálat</h2>
-    
-    <div class="info-box">
-        <b>Feladat:</b> Egészítse ki a jegyzőkönyvet! A számításokat két tizedesjegy pontossággal végezze. 
-        <br>Össztömeg (m): <b id="total-mass">...</b> g
+<div class="card">
+    <a href="../index.html" class="back-link">← Vissza</a>
+    <h2>Finomsági modulus számítása</h2>
+    <div class="task-box">
+        Számítsd ki az adalékanyag finomsági modulusát (m) az alábbi kumulált (összesített) szitamaradékok alapján!
     </div>
 
     <table id="sieve-table">
-        <thead>
-            <tr>
-                <th>Szita (mm)</th>
-                <th>Fennmaradt (g)</th>
-                <th>Fennmaradt (%)</th>
-                <th>Összes fennm. (%)</th>
-                <th>Összes áthullott (%)</th>
+        <tr>
+            <th>Szita (mm)</th>
+            <td>16</td><td>8</td><td>4</td><td>2</td><td>1</td><td>0.5</td><td>0.25</td>
+        </tr>
+        <tr id="values-row">
+            <th>Maradék (%)</th>
             </tr>
-        </thead>
-        <tbody id="table-body">
-            </tbody>
     </table>
 
-    <div class="controls">
-        <button class="btn-check" onclick="checkAll()">Ellenőrzés</button>
-        <button class="btn-new" onclick="location.reload()">Új feladat generálása</button>
+    <div class="input-group">
+        <label>Finomsági modulus (m):</label>
+        <input type="number" id="userAns" step="0.01" placeholder="Pl: 5.42">
+    </div>
+
+    <div class="button-group">
+        <button onclick="checkAnswer()" class="check-btn">Ellenőrzés</button>
+        <button onclick="showSolution()" id="solBtn" class="sol-btn">Megoldás megmutatása</button>
+    </div>
+
+    <div id="feedback">
+        <div id="status-text"></div>
+        <div id="solution-text" style="display:none; margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 10px; font-weight: bold;"></div>
     </div>
 </div>
 
 <script>
-    const sieveSizes = [24, 16, 8, 4, 2, 1, 0.5, 0.25, 0.063];
-    let data = [];
-    let totalMass = 0;
+    let residues = [];
+    let correctAns;
 
-    function init() {
-        // Véletlenszerű tömegek generálása
-        data = sieveSizes.map((size, index) => {
-            let m = index === 0 ? 0 : Math.floor(Math.random() * 100) + 20;
-            return { size, mass: m };
-        });
+    function generateTask() {
+        const row = document.getElementById('values-row');
+        // Töröljük a régi értékeket a fejléc kivételével
+        while(row.cells.length > 1) row.deleteCell(1);
+
+        residues = [];
+        let sum = 0;
         
-        // Tál hozzáadása
-        data.push({ size: 'tál', mass: Math.floor(Math.random() * 20) + 5 });
+        // Generálunk 7 kumulált maradékot (növekvő sorrendben)
+        let lastVal = 0;
+        for(let i = 0; i < 7; i++) {
+            lastVal += Math.floor(Math.random() * 15) + 5;
+            if(lastVal > 100) lastVal = 100;
+            residues.push(lastVal);
+            sum += lastVal;
+            
+            let cell = row.insertCell(-1);
+            cell.innerHTML = lastVal;
+        }
+
+        correctAns = (sum / 100).toFixed(2);
         
-        totalMass = data.reduce((sum, item) => sum + item.mass, 0);
-        document.getElementById('total-mass').innerText = totalMass;
-
-        const tbody = document.getElementById('table-body');
-        let cumulativeFennm = 0;
-
-        data.forEach((item, index) => {
-            let fenmSzazalek = (item.mass / totalMass * 100);
-            cumulativeFennm += fenmSzazalek;
-            let athullottSzazalek = 100 - cumulativeFennm;
-
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${item.size}</td>
-                <td><b>${item.mass}</b></td>
-                <td><input type="number" step="0.01" class="ans-f" data-val="${fenmSzazalek.toFixed(2)}"></td>
-                <td><input type="number" step="0.01" class="ans-of" data-val="${cumulativeFennm.toFixed(2)}"></td>
-                <td><input type="number" step="0.01" class="ans-a" data-val="${athullottSzazalek.toFixed(2)}"></td>
-            `;
-            tbody.appendChild(row);
-        });
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('solBtn').style.display = 'none';
+        document.getElementById('userAns').value = '';
     }
 
-    function checkAll() {
-        const inputs = document.querySelectorAll('input');
-        let score = 0;
-        
-        inputs.forEach(input => {
-            let userVal = parseFloat(input.value);
-            let correctVal = parseFloat(input.getAttribute('data-val'));
-            
-            if (Math.abs(userVal - correctVal) < 0.05) {
-                input.className = 'success';
-                score++;
-            } else {
-                input.className = 'error';
-            }
-        });
+    function checkAnswer() {
+        const userVal = document.getElementById('userAns').value;
+        const feedback = document.getElementById('feedback');
+        const status = document.getElementById('status-text');
+        const solBtn = document.getElementById('solBtn');
+        const solText = document.getElementById('solution-text');
 
-        if(score === inputs.length) {
-            alert("Gratulálok! Minden érték pontos.");
+        feedback.style.display = 'block';
+        solText.style.display = 'none';
+
+        if (Math.abs(userVal - correctAns) <= 0.05) {
+            feedback.style.backgroundColor = '#d4edda';
+            feedback.style.color = '#155724';
+            status.innerHTML = "✅ <b>Helyes!</b> Pontosan számoltál.";
+            solBtn.style.display = 'none';
         } else {
-            alert("Vannak még hibás adatok. A piros mezőket ellenőrizd újra!");
+            feedback.style.backgroundColor = '#f8d7da';
+            feedback.style.color = '#721c24';
+            status.innerHTML = "❌ <b>Hibás érték.</b> Összegezd a maradékokat!";
+            solBtn.style.display = 'inline-block';
+            solText.innerHTML = `Képlet: m = (Σ kumulált maradékok) / 100 <br>
+                                Számítás: (${residues.join(' + ')}) / 100 = ${correctAns}`;
         }
     }
 
-    init();
+    function showSolution() {
+        document.getElementById('solution-text').style.display = 'block';
+    }
+
+    generateTask();
 </script>
 
 </body>
