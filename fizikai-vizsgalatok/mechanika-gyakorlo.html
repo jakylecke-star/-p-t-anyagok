@@ -2,57 +2,104 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Mechanikai Gyakorló</title>
+    <title>Mechanika Gyakorló</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #c0392b; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; justify-content: center; }
-        .container { background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
-        .task-card { background: #fff5f5; border-left: 5px solid var(--accent); padding: 20px; margin-bottom: 20px; border-radius: 10px; line-height: 1.6; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
+        h2 { color: var(--primary); margin-top: 0; }
+        .task-box { background: #fff5f5; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid #e74c3c; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; margin-bottom: 15px; }
+        
+        .button-group { display: flex; gap: 10px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .check-btn { background: var(--primary); color: white; }
+        .sol-btn { background: #95a5a6; color: white; display: none; }
+        
+        #feedback { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; }
+        .back-link { display: block; margin-bottom: 20px; text-decoration: none; color: var(--accent); font-weight: bold; }
     </style>
 </head>
 <body>
-<div class="container">
-    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
-    <h2 id="title">Betöltés...</h2>
-    <div id="task" class="task-card"></div>
-    <label>Számított érték (N/mm²):</label>
-    <input type="number" id="userAns" step="0.01" placeholder="Pl: 21.39">
-    <button onclick="check()">Ellenőrzés</button>
+
+<div class="card">
+    <a href="../index.html" class="back-link">← Vissza</a>
+    <h2>Nyomószilárdság számítása</h2>
+    <div class="task-box" id="task-text">Töltés...</div>
+
+    <div class="input-group">
+        <label>Nyomószilárdság (N/mm² vagy MPa):</label>
+        <input type="number" id="userAns" step="0.1" placeholder="Add meg az eredményt">
+    </div>
+
+    <div class="button-group">
+        <button onclick="checkAnswer()" class="check-btn">Ellenőrzés</button>
+        <button onclick="showSolution()" id="solBtn" class="sol-btn">Megoldás megmutatása</button>
+    </div>
+
+    <div id="feedback">
+        <div id="status-text"></div>
+        <div id="solution-text" style="display:none; margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 10px; font-weight: bold;"></div>
+    </div>
 </div>
 
 <script>
-    let correct;
-    function generate() {
-        const isHuzo = Math.random() > 0.5;
-        if(isHuzo) {
-            document.getElementById('title').innerText = "Húzószilárdság (f_t)";
-            let a = Math.floor(Math.random() * 6) + 18; // 18-23mm
-            let force = Math.floor(Math.random() * 2000) + 4000;
-            correct = (force / (a * a)).toFixed(2);
-            document.getElementById('task').innerHTML = `Egy fa próbatest keresztmetszete <b>${a}x${a} mm</b>. A mért szakítóerő <b>${force} N</b>. Mennyi az anyag húzószilárdsága?`;
+    let force, edge, area, correctAns;
+
+    function generateTask() {
+        // Véletlenszerű adatok: 150x150 mm-es kocka vagy 40x40 mm-es próbatest
+        const isSmall = Math.random() > 0.5;
+        edge = isSmall ? 40 : 150; 
+        area = edge * edge;
+        
+        // Erő kN-ban (kisebb próbatestnél kisebb erő)
+        force = isSmall ? (Math.random() * 50 + 20).toFixed(1) : (Math.random() * 500 + 400).toFixed(1);
+        
+        // Számítás: f = F / A (kN -> N átszámítással: * 1000)
+        correctAns = ((force * 1000) / area).toFixed(1);
+        
+        document.getElementById('task-text').innerHTML = 
+            `Egy <b>${edge}x${edge} mm</b> alapú kocka próbatest a vizsgálat során <b>${force} kN</b> erő hatására tört össze. <br><br> Számítsd ki a nyomószilárdságot!`;
+        
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('solBtn').style.display = 'none';
+        document.getElementById('userAns').value = '';
+    }
+
+    function checkAnswer() {
+        const userVal = document.getElementById('userAns').value;
+        const feedback = document.getElementById('feedback');
+        const status = document.getElementById('status-text');
+        const solBtn = document.getElementById('solBtn');
+        const solText = document.getElementById('solution-text');
+
+        feedback.style.display = 'block';
+        solText.style.display = 'none';
+
+        if (Math.abs(userVal - correctAns) <= 0.2) {
+            feedback.style.backgroundColor = '#d4edda';
+            feedback.style.color = '#155724';
+            status.innerHTML = "✅ <b>Helyes!</b> A szilárdság értéke pontos.";
+            solBtn.style.display = 'none';
         } else {
-            document.getElementById('title').innerText = "Nyomószilárdság (f_c)";
-            let forceKN = (Math.random() * 150 + 300).toFixed(1);
-            let areaCM2 = 176.7;
-            // f = (kN/cm2) * 10 -> N/mm2
-            correct = (forceKN / areaCM2 * 10).toFixed(2);
-            document.getElementById('task').innerHTML = `Egy betonhenger (A = <b>176,7 cm²</b>) nyomóereje <b>${forceKN} kN</b>. Számítsa ki a nyomószilárdságot <b>N/mm²</b>-ben!`;
+            feedback.style.backgroundColor = '#f8d7da';
+            feedback.style.color = '#721c24';
+            status.innerHTML = "❌ <b>Hibás számítás.</b> Ne felejtsd el az erőt Newtonba (N) átszámítani!";
+            solBtn.style.display = 'inline-block';
+            solText.innerHTML = `Képlet: f<sub>c</sub> = F / A <br>
+                                Felület (A): ${edge} · ${edge} = ${area} mm² <br>
+                                Erő (F): ${force} kN = ${force * 1000} N <br>
+                                Számítás: ${force * 1000} / ${area} = ${correctAns} N/mm²`;
         }
     }
 
-    function check() {
-        let val = document.getElementById('userAns').value;
-        if(Math.abs(val - correct) < 0.1) {
-            alert("✅ Helyes válasz! (" + correct + " N/mm²)");
-            location.reload();
-        } else {
-            alert("❌ Próbáld újra! A helyes (vastagon szedett) érték: " + correct + " N/mm²");
-        }
+    function showSolution() {
+        document.getElementById('solution-text').style.display = 'block';
     }
-    generate();
+
+    generateTask();
 </script>
+
 </body>
 </html>
