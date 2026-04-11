@@ -2,168 +2,178 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Záróvizsga Teszt - 40/100</title>
+    <title>Záróvizsga Teszt - 40 Kérdés</title>
     <style>
         :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; --success: #27ae60; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; color: #333; line-height: 1.6; }
         .container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .score-box { position: sticky; top: 10px; background: var(--primary); color: white; padding: 15px; border-radius: 10px; text-align: center; z-index: 100; margin-bottom: 25px; }
-        .question-card { background: #fff; border: 1px solid #eee; padding: 25px; margin-bottom: 20px; border-radius: 12px; }
-        .options label { display: block; background: #f8f9fa; padding: 12px; margin: 8px 0; border-radius: 8px; cursor: pointer; }
-        .order-input { width: 100px; padding: 10px; border: 2px solid var(--accent); border-radius: 5px; text-align: center; font-weight: bold; }
-        .btn-submit { display: block; width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-size: 1.3rem; font-weight: bold; cursor: pointer; }
+        .score-box { position: sticky; top: 10px; background: var(--primary); color: white; padding: 15px; border-radius: 10px; text-align: center; z-index: 100; margin-bottom: 25px; font-weight: bold; font-size: 1.2rem; }
+        .question-card { background: #fff; border: 1px solid #eee; padding: 25px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .question-card h3 { margin-top: 0; color: var(--primary); font-size: 1.1rem; border-bottom: 1px dotted #ccc; padding-bottom: 10px; }
+        .options label { display: block; background: #f8f9fa; padding: 12px; margin: 8px 0; border-radius: 8px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .options label:hover { background: #eef2f7; border-color: var(--accent); }
+        .order-input { width: 120px; padding: 10px; border: 2px solid var(--accent); border-radius: 5px; text-align: center; font-weight: bold; font-size: 1.1rem; }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-size: 1.4rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 30px; }
+        .btn-submit:hover { background: #219150; transform: translateY(-2px); }
         .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: var(--accent); font-weight: bold; }
+        ul { padding-left: 20px; margin-top: 10px; color: #666; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <a href="../index.html" class="back-link">← Vissza a főoldalra</a>
-    <div id="quiz-header" class="score-box">Teszt generálása...</div>
+    <div id="quiz-header" class="score-box">Vizsga generálása...</div>
     <div id="quiz-container"></div>
-    <button onclick="evaluateQuiz()" class="btn-submit">Vizsga befejezése</button>
+    <button onclick="evaluateQuiz()" class="btn-submit">Vizsga befejezése és kiértékelés</button>
 </div>
 
 <script>
-// Idetettem mind a 100 kérdést (rövidítve a kód nézetben, de a teljes listát másold be)
 const allQuestions = [
-    // 1-20: FIZIKAI ÉS KÉMIAI ALAPFOGALMAK
-    { type: 'single', q: 'Mi az areométer?', options: ['Sűrűségmérő eszköz', 'Hőmérő', 'Nedvességmérő', 'Nyomásmérő'], correct: 0 },
-    { type: 'single', q: 'Mit jelent a duktilitás?', options: ['Keménység', 'Képlékeny alakíthatóság', 'Vízfelvevő képesség', 'Fagyállóság'], correct: 1 },
-    { type: 'single', q: 'Mi a hidratáció?', options: ['Száradás', 'Kémiai reakció a cement és víz között', 'Fagyás', 'Párolgás'], correct: 1 },
-    { type: 'single', q: 'Mi a dehidratáció?', options: ['Vízfelvétel', 'Vízelvonás kémiai reakcióval', 'Olvadás', 'Forrás'], correct: 1 },
-    { type: 'single', q: 'Mit jelent a higroszkóposság?', options: ['Vízállóság', 'Légnedvesség megkötése', 'Fagyállóság', 'Sűrűség'], correct: 1 },
-    { type: 'single', q: 'Melyik anyag szublimál?', options: ['Víz', 'Jód / Szárazjég', 'Cement', 'Homok'], correct: 1 },
-    { type: 'single', q: 'Mi az adszorpció?', options: ['Felületi megkötődés', 'Teljes elnyelődés', 'Párolgás', 'Olvadás'], correct: 0 },
-    { type: 'single', q: 'Mi az abszorpció?', options: ['Felületi megkötődés', 'Teljes elnyelődés', 'Visszaverődés', 'Törés'], correct: 1 },
+    // --- FIZIKAI ÉS KÉMIAI ALAPFOGALMAK ---
+    { type: 'single', q: 'Mi az areométer?', options: ['Sűrűségmérő eszköz folyadékokhoz', 'Hőmérő', 'Nedvességmérő', 'Nyomásmérő'], correct: 0 },
+    { type: 'single', q: 'Mit jelent a duktilitás?', options: ['Anyag keménysége', 'Képlékeny alakíthatóság', 'Vízfelvevő képesség', 'Fagyállóság'], correct: 1 },
+    { type: 'single', q: 'Mi a hidratáció?', options: ['Száradás folyamata', 'Kémiai reakció a cement és víz között', 'Fagyás', 'Párolgás'], correct: 1 },
+    { type: 'single', q: 'Mi a dehidratáció?', options: ['Vízfelvétel', 'Vízelvonás kémiai reakcióval (pl. gipsznél)', 'Olvadás', 'Forrás'], correct: 1 },
+    { type: 'single', q: 'Mit jelent a higroszkóposság?', options: ['Vízállóság', 'Légnedvesség megkötése a levegőből', 'Fagyállóság', 'Sűrűség'], correct: 1 },
+    { type: 'single', q: 'Melyik anyag szublimál?', options: ['Víz', 'Jód vagy Szárazjég', 'Cement', 'Homok'], correct: 1 },
+    { type: 'single', q: 'Mi az adszorpció?', options: ['Felületi megkötődés (pl. gázoké)', 'Teljes elnyelődés az anyag belsejébe', 'Párolgás', 'Olvadás'], correct: 0 },
+    { type: 'single', q: 'Mi az abszorpció?', options: ['Felületi megkötődés', 'Teljes elnyelődés az anyag belsejébe', 'Visszaverődés', 'Törés'], correct: 1 },
     { type: 'single', q: 'Mi a testsűrűség mértékegysége?', options: ['kg/m³', 'N/mm²', 'Joule', 'Pascal'], correct: 0 },
     { type: 'single', q: 'Hogyan jelöljük a sűrűséget?', options: ['v', 'ρ (ró)', 'm', 'A'], correct: 1 },
     { type: 'single', q: 'Melyik állapotban a legnagyobb a víz sűrűsége?', options: ['0 °C (jég)', '4 °C (folyadék)', '100 °C (gőz)', '20 °C'], correct: 1 },
-    { type: 'single', q: 'Mit mérünk piknométerrel?', options: ['Hőmérsékletet', 'Valódi sűrűséget', 'Nyomást', 'Húzószilárdságot'], correct: 1 },
-    { type: 'single', q: 'Mi a porozitás?', options: ['Anyag tömörsége', 'Hézagosság (lyukacsosság)', 'Szín', 'Keménység'], correct: 1 },
-    { type: 'single', q: 'Mi a diffúzió?', options: ['Anyagi részecskék elkeveredése', 'Fagyás', 'Mágnesesség', 'Elektromos vezetés'], correct: 0 },
+    { type: 'single', q: 'Mit mérünk piknométerrel?', options: ['Hőmérsékletet', 'Valódi sűrűséget (hézagok nélkül)', 'Nyomást', 'Húzószilárdságot'], correct: 1 },
+    { type: 'single', q: 'Mi a porozitás?', options: ['Anyag tömörsége', 'Hézagosság, lyukacsosság mértéke', 'Szín', 'Keménység'], correct: 1 },
+    { type: 'single', q: 'Mi a diffúzió?', options: ['Anyagi részecskék maguktól való elkeveredése', 'Fagyás', 'Mágnesesség', 'Elektromos vezetés'], correct: 0 },
     { type: 'single', q: 'Mi a kohézió?', options: ['Azonos molekulák közötti vonzóerő', 'Különböző anyagok tapadása', 'Törés', 'Nyúlás'], correct: 0 },
-    { type: 'single', q: 'Mi az adhézió?', options: ['Azonos molekulák vonzása', 'Különböző felületek tapadása', 'Párolgás', 'Sűrűség'], correct: 1 },
+    { type: 'single', q: 'Mi az adhézió?', options: ['Azonos molekulák vonzása', 'Különböző felületek egymáshoz tapadása', 'Párolgás', 'Sűrűség'], correct: 1 },
     { type: 'single', q: 'Melyik a legkeményebb természetes anyag?', options: ['Kvarc', 'Gyémánt', 'Acél', 'Gránit'], correct: 1 },
-    { type: 'single', q: 'Mi a viszkozitás?', options: ['Folyadékok belső súrlódása', 'Szín', 'Hőmérséklet', 'Tömeg'], correct: 0 },
+    { type: 'single', q: 'Mi a viszkozitás?', options: ['Folyadékok belső súrlódása (ellenállás a folyással szemben)', 'Szín', 'Hőmérséklet', 'Tömeg'], correct: 0 },
     { type: 'single', q: 'Mi a hővezetési tényező jele?', options: ['λ (lambda)', 'f', 'E', 'R'], correct: 0 },
-    { type: 'single', q: 'Mit jelent, ha egy anyag amorf?', options: ['Kristályos', 'Szabálytalan belső szerkezetű', 'Gáz', 'Fémes'], correct: 1 },
+    { type: 'single', q: 'Mit jelent, ha egy anyag amorf?', options: ['Kristályos szerkezetű', 'Szabálytalan belső szerkezetű (pl. üveg)', 'Gáz halmazállapotú', 'Fémes'], correct: 1 },
 
-    // --- 21-40: HIDRO- ÉS HŐTECHNIKA ---
-    { type: 'multiple', q: 'Melyek a hidrotechnikai tulajdonságok?', options: ['Nedvességtartalom', 'Vízfelvétel', 'Vízáteresztés', 'Hővezetési tényező'], correct: [0, 1, 2] },
+    // --- HIDRO- ÉS HŐTECHNIKA ---
+    { type: 'multiple', q: 'Melyek a hidrotechnikai tulajdonságok? (Válassz hármat!)', options: ['Nedvességtartalom', 'Vízfelvétel', 'Vízáteresztés', 'Hővezetési tényező'], correct: [0, 1, 2] },
     { type: 'single', q: 'Mi a kapilláris vízfelszívás?', options: ['Víznyomás alatti beszivárgás', 'Hajszálcsövességen alapuló felszívás', 'Pára lecsapódása', 'Vízgőz áramlása'], correct: 1 },
-    { type: 'single', q: 'Mit jelent a vízállóság?', options: ['Nem veszti el szilárdságát', 'Nem engedi át a vizet', 'Úszik', 'Színálló'], correct: 0 },
-    { type: 'single', q: 'Mi a fagyállóság feltétele?', options: ['Pórusmentesség', 'Megfelelő léghézag', 'Sötét szín', 'Nagy tömeg'], correct: 1 },
-    { type: 'multiple', q: 'Mivel mérhető a nedvességtartalom?', options: ['Szárítószekrény', 'Exszikkátor', 'Mérleg', 'Vicat-tű'], correct: [0, 1, 2] },
-    { type: 'single', q: 'Mi a telítési tényező?', options: ['Vízfelvétel és porozitás aránya', 'Súly-magasság', 'Hőmérséklet', 'Arány'], correct: 0 },
-    { type: 'single', q: 'Hogyan távozik a víz szárításkor?', options: ['Szublimációval', 'Párolgással', 'Fagyással', 'Kondenzációval'], correct: 1 },
-    { type: 'single', q: 'Mit mérünk exszikkátorban?', options: ['Hőt', 'Nedvességtől védett hűtés', 'Szilárdságot', 'Rugalmasságot'], correct: 1 },
-    { type: 'single', q: 'Melyik anyag hőszigetelőbb?', options: ['Beton', 'Pórusos anyag', 'Acél', 'Gránit'], correct: 1 },
-    { type: 'single', q: 'Mi a fajhő?', options: ['1kg anyag 1 fokos melegítése', 'Olvadáspont', 'Éghetőség', 'Sűrűség'], correct: 0 },
-    { type: 'single', q: 'Mit jelent a tűzállóság?', options: ['Nem ég', 'Adott ideig ellenáll', 'Stabil', 'Oltható'], correct: 1 },
-    { type: 'single', q: 'Mi a lineáris hőtágulás?', options: ['Hosszváltozás', 'Tömegcsökkenés', 'Színváltozás', 'Olvadás'], correct: 0 },
-    { type: 'multiple', q: 'Melyek a hőtechnikai jellemzők?', options: ['Hővezetés', 'Hőtágulás', 'Fajhő', 'Duktilitás'], correct: [0, 1, 2] },
-    { type: 'single', q: 'Mi az "u" érték?', options: ['Hőátbocsátási tényező', 'Sűrűség', 'Sebesség', 'Ár'], correct: 0 },
-    { type: 'single', q: 'Hogyan hat a nedvesség a hővezetésre?', options: ['Javít', 'Ront (növeli a vezetést)', 'Nincs hatása', 'Megállítja'], correct: 1 },
+    { type: 'single', q: 'Mit jelent a vízállóság?', options: ['Az anyag víz hatására nem veszti el szilárdságát', 'Nem engedi át a vizet', 'Úszik a vízen', 'Színe nem változik'], correct: 0 },
+    { type: 'single', q: 'Mi a fagyállóság feltétele?', options: ['Zárt pórusok hiánya', 'Megfelelő mennyiségű léghézag a jég tágulásához', 'Sötét szín', 'Nagy tömeg'], correct: 1 },
+    { type: 'multiple', q: 'Mivel mérhető a nedvességtartalom? (Válassz többet!)', options: ['Szárítószekrény', 'Exszikkátor', 'Mérleg', 'Vicat-tű'], correct: [0, 1, 2] },
+    { type: 'single', q: 'Mi a telítési tényező?', options: ['Vízfelvétel és porozitás aránya', 'Súly és magasság aránya', 'Hőmérséklet különbség', 'Keverési arány'], correct: 0 },
+    { type: 'single', q: 'Hogyan távozik a víz a szárítás során?', options: ['Szublimációval', 'Párolgással', 'Fagyással', 'Kondenzációval'], correct: 1 },
+    { type: 'single', q: 'Mit csinálunk az exszikkátorban?', options: ['Mintát hevítünk', 'Nedvességtől védett hűtést végzünk', 'Szilárdságot mérünk', 'Rugalmasságot'], correct: 1 },
+    { type: 'single', q: 'Melyik anyag hőszigetelőbb?', options: ['Tömör beton', 'Levegővel teli pórusos anyag (pl. hőszigetelő lap)', 'Acél', 'Gránit'], correct: 1 },
+    { type: 'single', q: 'Mi a fajhő?', options: ['1kg anyag 1 fokkal való felmelegítéséhez szükséges hő', 'Olvadáspont', 'Éghetőség', 'Sűrűség'], correct: 0 },
+    { type: 'single', q: 'Mit jelent a tűzállóság?', options: ['Soha nem ég el', 'Adott ideig ellenáll a tűz hatásainak', 'Minden hőmérsékleten stabil', 'Vízzel oltható'], correct: 1 },
+    { type: 'single', q: 'Mi a lineáris hőtágulás?', options: ['Hosszváltozás hő hatására', 'Tömegcsökkenés', 'Színváltozás', 'Olvadás'], correct: 0 },
+    { type: 'multiple', q: 'Melyek a hőtechnikai jellemzők? (Válassz hármat!)', options: ['Hővezetés', 'Hőtágulás', 'Fajhő', 'Duktilitás'], correct: [0, 1, 2] },
+    { type: 'single', q: 'Mi az "u" érték az építészetben?', options: ['Hőátbocsátási tényező', 'Sűrűség', 'Sebesség', 'Ár'], correct: 0 },
+    { type: 'single', q: 'Hogyan befolyásolja a nedvesség a hővezetést?', options: ['Javítja a szigetelést', 'Rontja a szigetelést (növeli a vezetést)', 'Nincs hatása', 'Megállítja a hőáramlást'], correct: 1 },
     { type: 'single', q: 'Melyik a jobb hőszigetelő?', options: ['Nedves tégla', 'Száraz tégla', 'Beton', 'Vas'], correct: 1 },
-    { type: 'single', q: 'Mi a fagyasztási ciklus része?', options: ['-20 fokra hűtés és vízben olvasztás', 'Csak hűtés', 'Áztatás', 'Sózás'], correct: 0 },
-    { type: 'single', q: 'Mit jelent a kondenzáció?', options: ['Párolgás', 'Lecsapódás', 'Fagyás', 'Olvadás'], correct: 1 },
-    { type: 'single', q: 'Mi a páradiffúziós ellenállás?', options: ['Vízállóság', 'Gőz áramlás elleni ellenállás', 'Hőszigetelés', 'Keménység'], correct: 1 },
+    { type: 'single', q: 'Mi a fagyasztási ciklus része?', options: ['-20 fokra hűtés és vízben olvasztás', 'Csak hűtés szárazon', 'Csak áztatás', 'Sózás'], correct: 0 },
+    { type: 'single', q: 'Mit jelent a kondenzáció?', options: ['Párolgás', 'Pára lecsapódása folyadékká', 'Fagyás', 'Olvadás'], correct: 1 },
+    { type: 'single', q: 'Mi a páradiffúziós ellenállás?', options: ['Vízállóság', 'Anyag ellenállása a gőz áramlásával szemben', 'Hőszigetelés', 'Keménység'], correct: 1 },
     { type: 'single', q: 'Melyik anyag bírja jobban a hőt?', options: ['Műanyag', 'Kerámia', 'Fa', 'Bitumen'], correct: 1 },
 
-    // --- 41-60: TERMÉSZETES KÖVEK ÉS ADALÉKANYAGOK ---
+    // --- TERMÉSZETES KÖVEK ÉS ADALÉKANYAGOK ---
     { type: 'multiple', q: 'Melyek a természetes kőzetfajták?', options: ['Magmás', 'Üledékes', 'Metamorf', 'Égetett'], correct: [0, 1, 2] },
     { type: 'single', q: 'Melyik kőzet a magmás eredetű?', options: ['Mészkő', 'Bazalt', 'Agyag', 'Lösz'], correct: 1 },
-    { type: 'single', q: 'Mi a kőzet mállása?', options: ['Pusztulás', 'Keletkezés', 'Csiszolás', 'Polírozás'], correct: 0 },
-    { type: 'multiple', q: 'Milyen tényezők rontják a kőanyagokat?', options: ['Mállás', 'Gyökerek', 'Fagy', 'Viaszolás'], correct: [0, 1, 2] },
+    { type: 'single', q: 'Mi a kőzet mállása?', options: ['Kémiai vagy fizikai pusztulás az időjárás miatt', 'Kőzet keletkezése', 'Csiszolás', 'Polírozás'], correct: 0 },
+    { type: 'multiple', q: 'Milyen tényezők rontják a kőanyagokat?', options: ['Mállás', 'Növényi gyökerek', 'Fagy', 'Viaszolás'], correct: [0, 1, 2] },
     { type: 'multiple', q: 'Melyek az adalékanyag jellemzői?', options: ['Szemmegoszlás', 'Szemcsealak', 'Tisztaság', 'Kötési idő'], correct: [0, 1, 2] },
-    { type: 'single', q: 'Mi a finomsági modulus?', options: ['Szemcseösszetétel mutató', 'Sűrűség', 'Keménység', 'Szín'], correct: 0 },
+    { type: 'single', q: 'Mi a finomsági modulus?', options: ['Szemcseösszetételt jellemző mérőszám', 'Sűrűség', 'Keménység', 'Szín'], correct: 0 },
     { type: 'single', q: 'Mekkora az adalékanyag max. szemnagysága, ha Dmax=16?', options: ['8 mm', '16 mm', '32 mm', '4 mm'], correct: 1 },
-    { type: 'single', q: 'Mit jelent a kumulált maradék?', options: ['Összes maradvány', 'Átesett', 'Kidobott', 'Nedves'], correct: 0 },
+    { type: 'single', q: 'Mit jelent a kumulált maradék?', options: ['Adott szitán és az összes felette lévőn maradt anyag', 'Átesett anyag', 'Kidobott anyag', 'Nedves anyag'], correct: 0 },
     { type: 'single', q: 'Melyik a homokos kavics szemcsehatára?', options: ['0-4 mm', '0-32 mm', '4-16 mm', '16-32 mm'], correct: 1 },
-    { type: 'single', q: 'Mi a "0" szemcse az adalékanyagban?', options: ['Lisztfinomság', 'Nagy kövek', 'Víz', 'Levegő'], correct: 0 },
+    { type: 'single', q: 'Mi a "0" szemcse az adalékanyagban?', options: ['Lisztfinomságú rész (iszap, por)', 'Nagy kövek', 'Víz', 'Levegő'], correct: 0 },
     { type: 'multiple', q: 'Mivel vizsgáljuk az adalékanyagot?', options: ['Szitasorral', 'Mérleggel', 'Tolómérővel', 'Hőmérővel'], correct: [0, 1, 2] },
-    { type: 'single', q: 'Milyen alakú a jó betonadalék?', options: ['Lapos', 'Gömb/Kocka szerű', 'Tűszerű', 'Lemezes'], correct: 1 },
-    { type: 'single', q: 'Mi az iszaptartalom?', options: ['Szennyeződések aránya', 'Víz', 'Kavics', 'Cement'], correct: 0 },
-    { type: 'single', q: 'Miért káros az agyag a homokban?', options: ['Gátolja a tapadást', 'Javítja a színt', 'Növeli a szilárdságot', 'Nem káros'], correct: 0 },
+    { type: 'single', q: 'Milyen alakú a jó betonadalék szemcse?', options: ['Hosszúkás, lapos', 'Közel gömb vagy kocka alakú', 'Tűszerű', 'Lemezes'], correct: 1 },
+    { type: 'single', q: 'Mi az iszaptartalom?', options: ['A legfinomabb szennyeződések aránya', 'Víz mennyisége', 'Kavicsok száma', 'Cement súlya'], correct: 0 },
+    { type: 'single', q: 'Miért káros az agyag a homokban?', options: ['Gátolja a cement tapadását a szemcsékhez', 'Javítja a színt', 'Növeli a szilárdságot', 'Nem káros'], correct: 0 },
     { type: 'single', q: 'Melyik az üledékes kőzet?', options: ['Gránit', 'Mészkő', 'Bazalt', 'Andezit'], correct: 1 },
     { type: 'single', q: 'Mi a gránit fő alkotója?', options: ['Kvarc, földpát, csillám', 'Mész', 'Agyag', 'Homok'], correct: 0 },
-    { type: 'single', q: 'Mire jó a zúzottkő?', options: ['Beton, útépítés', 'Festék', 'Szigetelés', 'Üveg'], correct: 0 },
-    { type: 'single', q: 'Mit jelent a "frakció"?', options: ['Szemcseosztály', 'Képlet', 'Mutató', 'Sűrűség'], correct: 0 },
-    { type: 'order', q: 'Adalékanyag szitálás sorrendje:', options: ['Szitasor összeállítása', 'Minta ráhelyezése', 'Rázás', 'Mérés'], correct: [0, 1, 2, 3] },
-    { type: 'single', q: 'Melyik a legkisebb modulus szita?', options: ['0.063 mm', '0.25 mm', '1 mm', '4 mm'], correct: 1 },
+    { type: 'single', q: 'Mire jó a zúzottkő?', options: ['Betonadalék, útépítés alapja', 'Festékgyártás', 'Szigetelés', 'Üveggyártás'], correct: 0 },
+    { type: 'single', q: 'Mit jelent a "frakció"?', options: ['Szemcseosztály (pl. 4-8 mm közötti rész)', 'Kémiai képlet', 'Törési mutató', 'Sűrűség'], correct: 0 },
+    { type: 'order', q: 'Adalékanyag szitálás sorrendje:', options: ['Szitasor összeállítása (felül a legnagyobb)', 'Minta ráhelyezése', 'Rázás', 'Mérés szitánként'], correct: [0, 1, 2, 3] },
+    { type: 'single', q: 'Melyik a legkisebb szabványos szitaátmérő a modulushoz?', options: ['0.063 mm', '0.25 mm', '1 mm', '4 mm'], correct: 1 },
 
-    // --- 61-80: KÖTŐANYAGOK ---
-    { type: 'single', q: 'Melyik eszköz méri a cement térfogatállandóságát?', options: ['Vicat', 'Le Chatelier-gyűrű', 'Abrams', 'Areométer'], correct: 1 },
-    { type: 'single', q: 'Mi a cement kötési idejének kezdete?', options: ['Megkötés', 'Amikor a tű nem hatol be teljesen', 'Víz hozzáadása', 'Bedolgozás'], correct: 1 },
+    // --- KÖTŐANYAGOK ---
+    { type: 'single', q: 'Melyik eszköz méri a cement térfogatállandóságát?', options: ['Vicat-készülék', 'Le Chatelier-gyűrű', 'Abrams-kúp', 'Areométer'], correct: 1 },
+    { type: 'single', q: 'Mi a cement kötési idejének kezdete?', options: ['Amikor megkötött', 'Amikor a tű már nem hatol be teljesen a pépbe', 'Amikor vizet kap', 'Amikor bedolgozzák'], correct: 1 },
     { type: 'multiple', q: 'Milyen kötőanyagokat ismersz?', options: ['Mész', 'Cement', 'Gipsz', 'Homok'], correct: [0, 1, 2] },
-    { type: 'multiple', q: 'Mi jellemző a cementre?', options: ['Hidraulikus', 'Víz alatt is köt', 'Csak levegőn', 'Porszerű'], correct: [0, 1, 3] },
-    { type: 'multiple', q: 'Mi jellemző a mészre?', options: ['Légkötő', 'Oltással készül', 'Víz alatt köt', 'Fehér'], correct: [0, 1, 3] },
+    { type: 'multiple', q: 'Mi jellemző a cementre? (Válassz kettőt!)', options: ['Hidraulikus kötőanyag', 'Víz alatt is köt', 'Csak levegőn köt', 'Porszerű anyag'], correct: [0, 1] },
+    { type: 'multiple', q: 'Mi jellemző a mészre? (Válassz kettőt!)', options: ['Légkötő (CO2 kell hozzá)', 'Oltással készül', 'Víz alatt köt', 'Fehér színű'], correct: [0, 1] },
     { type: 'single', q: 'Milyen színű a tiszta mészhidrát?', options: ['Szürke', 'Fekete', 'Fehér', 'Barna'], correct: 2 },
     { type: 'single', q: 'Hány kg egy szabványos cementzsák?', options: ['15 kg', '25 kg', '50 kg', '100 kg'], correct: 1 },
-    { type: 'single', q: 'Mi a mészoltás kémiai folyamata?', options: ['CaO + H2O = Ca(OH)2', 'C + O2', 'NaCl', 'Fe'], correct: 0 },
+    { type: 'single', q: 'Mi a mészoltás kémiai folyamata?', options: ['CaO + H2O = Ca(OH)2', 'C + O2 = CO2', 'NaCl + H2O', 'Fe + O'], correct: 0 },
     { type: 'single', q: 'Mi a gipsz égetési hőmérséklete?', options: ['100-150 °C', '900 °C', '1450 °C', '2000 °C'], correct: 0 },
     { type: 'single', q: 'Melyik kötőanyag köt a leggyorsabban?', options: ['Cement', 'Mész', 'Gipsz', 'Bitumen'], correct: 2 },
-    { type: 'single', q: 'Mi a cement fő alapanyaga?', options: ['Mészkő és agyag', 'Homok', 'Vas', 'Fa'], correct: 0 },
-    { type: 'single', q: 'Mekkora hőmérsékleten égetik a klinkert?', options: ['500 °C', '1000 °C', '1450 °C', '3000 °C'], correct: 2 },
-    { type: 'single', q: 'Mi a Vicat-készülék feladata?', options: ['Kötési idő', 'Hő', 'Sűrűség', 'Szín'], correct: 0 },
-    { type: 'single', q: 'Mit jelent a CEM I jelölés?', options: ['Portlandcement', 'Mész', 'Gipsz', 'Beton'], correct: 0 },
-    { type: 'single', q: 'Miért adnak gipszet a cementhez?', options: ['Kötésszabályozás', 'Gyorsítás', 'Szín', 'Olcsóbb'], correct: 0 },
-    { type: 'single', q: 'Mi a mészkő kémiai neve?', options: ['CaCO3', 'NaCl', 'SiO2', 'H2O'], correct: 0 },
-    { type: 'single', q: 'Mi az égetett mész?', options: ['CaO', 'Mészhidrát', 'Cement', 'Víz'], correct: 0 },
-    { type: 'single', q: 'Melyik kötőanyag duzzad kötéskor?', options: ['Cement', 'Gipsz', 'Mész', 'Agyag'], correct: 1 },
-    { type: 'order', q: 'Mészgyártás sorrendje:', options: ['Bányászat', 'Égetés', 'Oltás', 'Mészhidrát'], correct: [0, 1, 2, 3] },
+    { type: 'single', q: 'Mi a cement fő alapanyaga?', options: ['Mészkő és agyag keveréke', 'Homok', 'Vas', 'Fa'], correct: 0 },
+    { type: 'single', q: 'Mekkora hőmérsékleten égetik a cementklinkert?', options: ['500 °C', '1000 °C', '1450 °C', '3000 °C'], correct: 2 },
+    { type: 'single', q: 'Mi a Vicat-készülék fő feladata?', options: ['Kötési idő mérése', 'Hőmérséklet mérés', 'Sűrűség mérés', 'Szín mérés'], correct: 0 },
+    { type: 'single', q: 'Mit jelent a CEM I jelölés?', options: ['Portlandcement', 'Mészhidrát', 'Gipsz', 'Beton'], correct: 0 },
+    { type: 'single', q: 'Miért adnak gipszet a cementhez az őrléskor?', options: ['Kötésszabályozás (lassítás)', 'Gyorsítás', 'Színezés', 'Olcsóbb legyen'], correct: 0 },
+    { type: 'single', q: 'Mi a mészkő kémiai neve?', options: ['Kalcium-karbonát (CaCO3)', 'Nátrium-klorid', 'Szilícium-dioxid', 'H2O'], correct: 0 },
+    { type: 'single', q: 'Mi az égetett mész?', options: ['Kalcium-oxid (CaO)', 'Mészhidrát', 'Cement', 'Víz'], correct: 0 },
+    { type: 'single', q: 'Melyik kötőanyag "duzzad" kötés közben?', options: ['Cement', 'Gipsz', 'Mész', 'Agyag'], correct: 1 },
+    { type: 'order', q: 'Mészgyártás sorrendje:', options: ['Mészkő bányászat', 'Égetés', 'Oltás', 'Mészhidrát kinyerése'], correct: [0, 1, 2, 3] },
     { type: 'single', q: 'Melyik kötőanyag nem bírja a vizet kötés után?', options: ['Cement', 'Mész', 'Gipsz', 'Műgyanta'], correct: 2 },
 
-    // --- 81-100: BETONTECHNOLÓGIA ÉS MECHANIKA ---
-    { type: 'single', q: 'Miből áll a beton?', options: ['Cement, víz, homok', 'Kötőanyag, adalékanyag, víz', 'Mész', 'Víz'], correct: 1 },
-    { type: 'single', q: 'Mekkora a szabványos próbakocka?', options: ['50 mm', '100 mm', '150 mm', '200 mm'], correct: 2 },
-    { type: 'multiple', q: 'Melyek a frissbeton mérések?', options: ['Roskadás', 'Terülés', 'Szakítás', 'Tömörödés'], correct: [0, 1, 3] },
-    { type: 'single', q: 'Hogyan jelöljük a nyomószilárdságot?', options: ['ρ', 'f_c', 'w', 'E'], correct: 1 },
-    { type: 'single', q: 'Mi a víz-cement tényező?', options: ['Víz és cement tömegaránya', 'Hő', 'Szín', 'Idő'], correct: 0 },
-    { type: 'single', q: 'Hány rétegben töltjük az Abrams-kúpot?', options: ['1', '2', '3', '5'], correct: 2 },
-    { type: 'single', q: 'Mivel tömörítjük a betont?', options: ['Vibrátorral', 'Kézzel', 'Hajszárítóval', 'Seperve'], correct: 0 },
-    { type: 'single', q: 'Mekkora az Abrams-kúp magassága?', options: ['100', '200', '300', '400'], correct: 2 },
-    { type: 'multiple', q: 'Mi hat a beton szilárdságára?', options: ['V/C tényező', 'Cement minőség', 'Tömörítés', 'Szín'], correct: [0, 1, 2] },
-    { type: 'single', q: 'Mi a bedolgozhatóság?', options: ['Alakíthatóság', 'Ár', 'Súly', 'Idő'], correct: 0 },
-    { type: 'single', q: 'Hány napos korban mérjük a szilárdságot?', options: ['1', '7', '28', '100'], correct: 2 },
-    { type: 'single', q: 'Mit jelent a C25/30?', options: ['Szilárdsági osztály', 'Hő', 'Dátum', 'Méret'], correct: 0 },
-    { type: 'single', q: 'Melyik a fontos utókezelés?', options: ['Nedvesen tartás', 'Fagyasztás', 'Festés', 'Csiszolás'], correct: 0 },
-    { type: 'single', q: 'Mi az F3 konzisztencia?', options: ['Képlékeny', 'Földnedves', 'Folyós', 'Kemény'], correct: 0 },
-    { type: 'single', q: 'Mi történik a sok víztől?', options: ['Nő szilárdság', 'Csökken szilárdság', 'Gyorsul', 'Semmi'], correct: 1 },
-    { type: 'multiple', q: 'Milyen adalékszerek vannak?', options: ['Képlékenyítő', 'Fagyásgátló', 'Kötésgyorsító', 'Hővezető'], correct: [0, 1, 2] },
-    { type: 'single', q: 'Mekkora erővel törnek a kockák?', options: ['Pár N', 'Több száz kN', '1 g', '10 t'], correct: 1 },
-    { type: 'single', q: 'Mi a hajlító-húzószilárdság?', options: ['Hajlításkor mért ellenállás', 'Nyomás', 'Csavarás', 'Szag'], correct: 0 },
-    { type: 'order', q: 'Betonkocka vizsgálat sorrendje:', options: ['Készítés', 'Tárolás', 'Behelyezés', 'Törés'], correct: [0, 1, 2, 3] },
-    { type: 'single', q: 'Mi a rugalmassági modulus?', options: ['Rugalmasság jellemzője', 'Szín', 'Szag', 'Ár'], correct: 0 }
+    // --- BETONTECHNOLÓGIA ÉS MECHANIKA ---
+    { type: 'single', q: 'Miből áll a beton?', options: ['Cement, víz, homok', 'Kötőanyag, adalékanyag, víz', 'Mész és tégla', 'Víz és kavics'], correct: 1 },
+    { type: 'single', q: 'Mekkora a szabványos próbakocka éle betonvizsgálathoz?', options: ['50 mm', '100 mm', '150 mm', '200 mm'], correct: 2 },
+    { type: 'multiple', q: 'Melyek a frissbeton konzisztencia mérési módszerei?', options: ['Roskadás', 'Terülés', 'Szakítás', 'Tömörödés'], correct: [0, 1, 3] },
+    { type: 'single', q: 'Hogyan jelöljük a nyomószilárdságot?', options: ['ρ (ró)', 'f_c', 'w', 'E'], correct: 1 },
+    { type: 'single', q: 'Mi a víz-cement tényező?', options: ['A víz és a cement tömegének aránya', 'Víz hőmérséklete', 'Cement színe', 'Keverési idő'], correct: 0 },
+    { type: 'single', q: 'Hány rétegben kell megtölteni az Abrams-kúpot?', options: ['1', '2', '3', '5'], correct: 2 },
+    { type: 'single', q: 'Mivel tömörítjük a betont a laborban?', options: ['Vibrátorral vagy szabványos döngölővel', 'Kézzel simítva', 'Hajszárítóval', 'Seperve'], correct: 0 },
+    { type: 'single', q: 'Mekkora az Abrams-kúp magassága?', options: ['100 mm', '200 mm', '300 mm', '400 mm'], correct: 2 },
+    { type: 'multiple', q: 'Mi befolyásolja a beton szilárdságát?', options: ['Víz-cement tényező', 'Cement minősége', 'Tömörítés mértéke', 'Időjárás jelentés'], correct: [0, 1, 2] },
+    { type: 'single', q: 'Mi a bedolgozhatóság?', options: ['Frissbeton alakíthatósága és tömöríthetősége', 'Beton ára', 'Beton súlya', 'Száradási idő'], correct: 0 },
+    { type: 'single', q: 'Mennyi ideig kell a próbakockát víz alatt tárolni a szabvány szerint?', options: ['1 nap', '7 nap', '28 nap', '1 év'], correct: 2 },
+    { type: 'single', q: 'Mit jelent a C25/30 jelölés?', options: ['Beton szilárdsági osztály', 'Hőmérséklet', 'Dátum', 'Méretek'], correct: 0 },
+    { type: 'single', q: 'Melyik a legfontosabb beton utókezelés?', options: ['Nedvesen tartás (locsolás)', 'Fagyasztás', 'Festés', 'Csiszolás'], correct: 0 },
+    { type: 'single', q: 'Mi az F3 konzisztencia?', options: ['Képlékeny', 'Földnedves', 'Folyós', 'Kőkemény'], correct: 0 },
+    { type: 'single', q: 'Mi történik, ha túl sok a keverővíz a betonban?', options: ['Nő a szilárdság', 'Csökken a szilárdság a pórusok miatt', 'Gyorsabban köt', 'Nem változik'], correct: 1 },
+    { type: 'multiple', q: 'Milyen adalékszer típusok vannak?', options: ['Képlékenyítő', 'Fagyásgátló', 'Kötésgyorsító', 'Hővezető'], correct: [0, 1, 2] },
+    { type: 'single', q: 'Mekkora nyomóerővel törnek a beton kockák általában?', options: ['Pár Newton', 'Több száz kilonewton (kN)', '1 Gramm', '10 Tonna'], correct: 1 },
+    { type: 'single', q: 'Mi a hajlító-húzószilárdság?', options: ['Próbatest hajlításakor fellépő ellenállás', 'Nyomás', 'Csavarás', 'Szag'], correct: 0 },
+    { type: 'order', q: 'Betonkocka vizsgálat helyes sorrendje:', options: ['Készítés és tömörítés', 'Tárolás 28 napig', 'Mérés és gépbe helyezés', 'Törés és kiértékelés'], correct: [0, 1, 2, 3] },
+    { type: 'single', q: 'Mi a rugalmassági modulus lényege a betonnál?', options: ['Az anyag rugalmasságának jellemzője', 'Szín', 'Szag', 'Ár'], correct: 0 }
 ];
 
 let activeQuestions = [];
-// --- EZT ÁLLÍTSD ÁT 40-RE ---
-const NUM_QUESTIONS = 40; 
+const NUM_QUESTIONS = 40; // Pontosan 40 kérdést kérünk
 
 function initQuiz() {
-    // Összes kérdés megkeverése
+    // Összes (100) kérdés megkeverése
     const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
     
-    // Kiválasztunk pontosan 40-et
+    // Kiválasztunk pontosan 40 véletlenszerűt
     activeQuestions = shuffled.slice(0, NUM_QUESTIONS);
     
-    document.getElementById('quiz-header').innerHTML = `Záróvizsga: ${activeQuestions.length} kérdés a 100-ból`;
+    document.getElementById('quiz-header').innerHTML = `Záróvizsga: ${activeQuestions.length} kérdés a tananyagból`;
     const container = document.getElementById('quiz-container');
     container.innerHTML = '';
 
     activeQuestions.forEach((q, i) => {
         let html = `<div class="question-card"><h3>${i+1}. ${q.q}</h3><div class="options">`;
+        
         if(q.type === 'single') {
-            q.options.forEach((opt, oi) => html += `<label><input type="radio" name="q${i}" value="${oi}"> ${opt}</label>`);
+            q.options.forEach((opt, oi) => {
+                html += `<label><input type="radio" name="q${i}" value="${oi}"> ${opt}</label>`;
+            });
         } else if(q.type === 'multiple') {
-            q.options.forEach((opt, oi) => html += `<label><input type="checkbox" name="q${i}" value="${oi}"> ${opt}</label>`);
+            q.options.forEach((opt, oi) => {
+                html += `<label><input type="checkbox" name="q${i}" value="${oi}"> ${opt}</label>`;
+            });
         } else if(q.type === 'order') {
-            html += `<input type="text" id="q${i}" class="order-input" placeholder="pl. 1234">`;
-            html += `<ul style="font-size:0.85rem;">${q.options.map((o, idx) => `<li>${idx+1}. ${o}</li>`).join('')}</ul>`;
+            html += `<p style="font-size:0.8rem; color:gray;">Írd be a helyes sorrend számait (pl. 1234):</p>`;
+            html += `<input type="text" id="q${i}" class="order-input" placeholder="1234">`;
+            html += `<ul>${q.options.map((o, idx) => `<li>${idx+1}. ${o}</li>`).join('')}</ul>`;
         }
-        container.innerHTML += html + `</div></div>`;
+        
+        html += `</div></div>`;
+        container.innerHTML += html;
     });
 }
 
@@ -177,14 +187,20 @@ function evaluateQuiz() {
             const sel = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
             if(JSON.stringify(sel.sort()) === JSON.stringify(q.correct.sort())) score++;
         } else if(q.type === 'order') {
-            const val = document.getElementById(`q${i}`).value.split('').map(n => parseInt(n)-1);
+            const inputVal = document.getElementById(`q${i}`).value.trim();
+            const val = inputVal.split('').map(n => parseInt(n)-1);
             if(JSON.stringify(val) === JSON.stringify(q.correct)) score++;
         }
     });
 
     const percent = (score / activeQuestions.length) * 100;
-    alert(`Eredmény: ${score}/${activeQuestions.length} (${percent.toFixed(1)}%)\n${percent >= 40 ? "SIKERES ✅" : "SIKERTELEN ❌"}`);
-    if(confirm("Új sorsolás?")) location.reload();
+    const isPassed = percent >= 40;
+    
+    alert(`EREDMÉNY:\nPontszám: ${score} / ${activeQuestions.length}\nSzázalék: ${percent.toFixed(1)}%\nStátusz: ${isPassed ? "SIKERES ✅" : "SIKERTELEN ❌ (Limit: 40%)"}`);
+    
+    if(confirm("Szeretnél új vizsgát indítani más kérdésekkel?")) {
+        location.reload();
+    }
 }
 
 initQuiz();
