@@ -2,21 +2,18 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Záróvizsga Teszt</title>
+    <title>Záróvizsga Teszt - 25+ Kérdés</title>
     <style>
         :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; --success: #27ae60; --error: #e74c3c; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; color: #333; }
         .container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .score-box { position: sticky; top: 10px; background: var(--primary); color: white; padding: 15px; border-radius: 10px; text-align: center; z-index: 100; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .question-card { background: #fff; border: 1px solid #eee; padding: 25px; margin-bottom: 20px; border-radius: 12px; transition: 0.3s; }
-        .question-card:hover { border-color: var(--accent); }
+        .question-card { background: #fff; border: 1px solid #eee; padding: 25px; margin-bottom: 20px; border-radius: 12px; }
         .question-card h3 { margin-top: 0; font-size: 1.1rem; color: var(--primary); }
         .options label { display: block; background: #f8f9fa; padding: 12px; margin: 8px 0; border-radius: 8px; cursor: pointer; border: 1px solid transparent; }
         .options label:hover { background: #eef2f7; border-color: #ddd; }
-        input[type="radio"], input[type="checkbox"] { margin-right: 10px; transform: scale(1.2); }
         .order-input { width: 100px; padding: 10px; font-size: 1rem; border: 2px solid var(--accent); border-radius: 5px; text-align: center; font-weight: bold; }
-        .btn-submit { display: block; width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 30px; transition: 0.3s; }
-        .btn-submit:hover { background: #219150; transform: translateY(-2px); }
+        .btn-submit { display: block; width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 30px; }
         .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: var(--accent); font-weight: bold; }
     </style>
 </head>
@@ -24,70 +21,67 @@
 
 <div class="container">
     <a href="../index.html" class="back-link">← Vissza a főoldalra</a>
-    <div id="quiz-header" class="score-box">Betöltés...</div>
+    <div id="quiz-header" class="score-box">Teszt betöltése...</div>
     <div id="quiz-container"></div>
-    <button onclick="evaluateQuiz()" class="btn-submit">Vizsga befejezése és kiértékelés</button>
+    <button onclick="evaluateQuiz()" class="btn-submit">Vizsga befejezése</button>
 </div>
 
 <script>
 const allQuestions = [
-    // 1-5: EGYSZERES VÁLASZTÁS (ALAPFOGALMAK)
-    { type: 'single', q: 'Mi az areométer?', options: ['Sűrűségmérő eszköz folyadékokhoz', 'Hőmérsékletet mérő műszer', 'Nedvességmérő berendezés', 'Szilárdságvizsgáló kalapács'], correct: 0 },
-    { type: 'single', q: 'Mit jelent a duktilitás?', options: ['Anyag keménysége', 'Képlékeny alakíthatóság', 'Vízfelvevő képesség', 'Tűzállóság'], correct: 1 },
-    { type: 'single', q: 'Melyik eszköz szolgál a cement térfogatállandóságának vizsgálatára?', options: ['Vicat-készülék', 'Abrams-kúp', 'Le Chatelier-gyűrű', 'Areométer'], correct: 2 },
-    { type: 'single', q: 'Mi a kapilláris vízfelszívás?', options: ['Víznyomás alatti beszivárgás', 'Hajszálcsövességen alapuló vízfelszívás', 'Pára lecsapódása', 'Vízgőz áramlása'], correct: 1 },
-    { type: 'single', q: 'Hogyan jelöljük a nyomószilárdságot?', options: ['ρ (ró)', 'f_c', 'w', 'E'], correct: 1 },
-
-    // 6-10: TÖBBSZÖRÖS VÁLASZTÁS (TULAJDONSÁGOK)
-    { type: 'multiple', q: 'Melyek a beton fő alkotórészei? (Válassz hármat!)', options: ['Kötőanyag (cement)', 'Adalékanyag', 'Mész', 'Víz', 'Gipsz'], correct: [0, 1, 3] },
-    { type: 'multiple', q: 'Mely tulajdonságok tartoznak a mechanikai jellemzők közé?', options: ['Nyomószilárdság', 'Húzószilárdság', 'Szín', 'Hajlítószilárdság'], correct: [0, 1, 3] },
-    { type: 'multiple', q: 'Milyen tényezők befolyásolják a beton szilárdságát?', options: ['Víz-cement tényező', 'Tömörítés mértéke', 'A keverőlapát színe', 'Utókezelés'], correct: [0, 1, 3] },
-    { type: 'multiple', q: 'Melyek a kőanyagok természetes kártevői/hibái?', options: ['Mállás', 'Fagyrepedés', 'Rozsdásodás', 'Növényi gyökerek'], correct: [0, 1, 3] },
-    { type: 'multiple', q: 'Milyen konzisztencia-mérési módszereket ismersz?', options: ['Roskadásmérés', 'Terülésmérés', 'Szagmérés', 'Tömörödési mérték'], correct: [0, 1, 3] },
-
-    // 11-15: SORREND / EGYÉB (FOLYAMATOK)
-    { type: 'order', q: 'Állítsd sorrendbe a betonozás folyamatát! (1: Keverés, 2: Szállítás, 3: Bedolgozás, 4: Utókezelés)', options: ['Keverés', 'Szállítás', 'Bedolgozás', 'Utókezelés'], correct: [0, 1, 2, 3] },
-    { type: 'single', q: 'Hány rétegben kell megtölteni az Abrams-kúpot roskadásméréskor?', options: ['1', '2', '3', '5'], correct: 2 },
-    { type: 'single', q: 'Mi történik az anyaggal szublimáció során?', options: ['Gázból szilárd lesz', 'Szilárdból gáz lesz', 'Folyékonyból gáz lesz', 'Szilárdból folyékony lesz'], correct: 1 },
+    // 1-10: EGYSZERES VÁLASZTÁS
+    { type: 'single', q: 'Mi az areométer?', options: ['Sűrűségmérő eszköz', 'Hőmérő', 'Nedvességmérő', 'Nyomásmérő'], correct: 0 },
+    { type: 'single', q: 'Mit jelent a duktilitás?', options: ['Keménység', 'Képlékeny alakíthatóság', 'Vízfelvevő képesség', 'Fagyállóság'], correct: 1 },
+    { type: 'single', q: 'Melyik eszköz méri a cement térfogatállandóságát?', options: ['Vicat-készülék', 'Le Chatelier-gyűrű', 'Abrams-kúp', 'Areométer'], correct: 1 },
+    { type: 'single', q: 'Mi a kapilláris vízfelszívás?', options: ['Víznyomás alatti beszivárgás', 'Hajszálcsövességen alapuló felszívás', 'Pára lecsapódása', 'Vízgőz áramlása'], correct: 1 },
     { type: 'single', q: 'Mekkora az Abrams-kúp magassága?', options: ['100 mm', '200 mm', '300 mm', '400 mm'], correct: 2 },
-    { type: 'order', q: 'Melyik a helyes sorrend a sűrűségmérésnél? (1: Bemérés, 2: Térfogatmérés, 3: Számítás)', options: ['Bemérés (tömeg)', 'Térfogatmérés', 'Osztás (m/V)'], correct: [0, 1, 2] }
+    { type: 'single', q: 'Mit jelent a higroszkóposság?', options: ['Vízállóság', 'Légnedvesség megkötése', 'Fagyállóság', 'Sűrűség'], correct: 1 },
+    { type: 'single', q: 'Melyik anyag szublimál?', options: ['Víz', 'Jód / Szárazjég', 'Cement', 'Homok'], correct: 1 },
+    { type: 'single', q: 'Mi a cement kötési idejének kezdete?', options: ['Amikor megkötött', 'Amikor a tű már nem hatol be teljesen', 'Amikor vizet kap', 'Amikor bedolgozzák'], correct: 1 },
+    { type: 'single', q: 'Mekkora a szabványos próbakocka éle betonvizsgálatnál?', options: ['50 mm', '100 mm', '150 mm', '200 mm'], correct: 2 },
+    { type: 'single', q: 'Mi a hidratáció?', options: ['Száradás', 'Kémiai reakció a cement és víz között', 'Fagyás', 'Párolgás'], correct: 1 },
 
-    // IDE JÖHET MÉG 55 KÉRDÉS...
+    // 11-20: TÖBBSZÖRÖS VÁLASZTÁS
+    { type: 'multiple', q: 'Melyek a beton fő alkotórészei? (Válassz hármat!)', options: ['Cement', 'Adalékanyag', 'Gipsz', 'Víz', 'Mész'], correct: [0, 1, 3] },
+    { type: 'multiple', q: 'Melyek a mechanikai tulajdonságok?', options: ['Nyomószilárdság', 'Húzószilárdság', 'Szín', 'Hajlítószilárdság'], correct: [0, 1, 3] },
+    { type: 'multiple', q: 'Milyen tényezők rontják a kőanyagokat?', options: ['Mállás', 'Növényi gyökerek', 'Fagy', 'Viaszolás'], correct: [0, 1, 2] },
+    { type: 'multiple', q: 'Melyek a frissbeton konzisztencia mérési módszerei?', options: ['Roskadás', 'Terülés', 'Szakítás', 'Tömörödés'], correct: [0, 1, 3] },
+    { type: 'multiple', q: 'Milyen kötőanyagokat ismersz?', options: ['Mész', 'Cement', 'Gipsz', 'Homok'], correct: [0, 1, 2] },
+    { type: 'multiple', q: 'Mik a kémiai tulajdonságok alapkategóriái?', options: ['Összetétel', 'Kristályszerkezet', 'Vízfelvétel', 'Savállóság'], correct: [0, 1, 3] },
+    { type: 'multiple', q: 'Melyek a természetes kőzetfajták?', options: ['Magmás', 'Üledékes', 'Metamorf', 'Égetett'], correct: [0, 1, 2] },
+    { type: 'multiple', q: 'Mivel mérhető a nedvességtartalom?', options: ['Szárítószekrény', 'Exszikkátor', 'Mérleg', 'Vicat-tű'], correct: [0, 1, 2] },
+    { type: 'multiple', q: 'Melyek az adalékanyag jellemzői?', options: ['Szemmegoszlás', 'Szemcsealak', 'Tisztaság', 'Kötési idő'], correct: [0, 1, 2] },
+    { type: 'multiple', q: 'Milyen betonfajtákat ismersz?', options: ['Könnyűbeton', 'Normál beton', 'Nehézbeton', 'Folyékony kő'], correct: [0, 1, 2] },
+
+    // 21-25: SORREND
+    { type: 'order', q: 'Rendezd sorba a betonozás lépéseit! (1: Keverés, 2: Szállítás, 3: Bedolgozás, 4: Utókezelés)', options: ['Keverés', 'Szállítás', 'Bedolgozás', 'Utókezelés'], correct: [0, 1, 2, 3] },
+    { type: 'order', q: 'Sűrűségmérés sorrendje (1: Tömegmérés, 2: Térfogatmérés, 3: Osztás)', options: ['Mérés mérleggel', 'Mérés mérőhengerrel', 'Számítás (m/V)'], correct: [0, 1, 2] },
+    { type: 'order', q: 'Cementvizsgálat lépései (1: Bemérés, 2: Vízzel keverés, 3: Vicat-tű mérés)', options: ['500g cement bemérése', 'Víz hozzáadása', 'Konzisztencia mérése'], correct: [0, 1, 2] },
+    { type: 'order', q: 'Roskadásmérés (1: Kúp töltése, 2: Tömörítés, 3: Kúp felemelése)', options: ['Kúp megtöltése 3 rétegben', 'Döngölés rétegenként', 'A forma függőleges emelése'], correct: [0, 1, 2] },
+    { type: 'order', q: 'Mészoltás folyamata (1: Mészkő égetése, 2: Égetett mész, 3: Oltás vízzel)', options: ['Égetés 900 fokon', 'Diómész darabok', 'Oltás gödörben/dobban'], correct: [0, 1, 2] }
 ];
 
 let activeQuestions = [];
-const TOTAL_NEEDED = 40; // Ha kevesebb mint 40 kérdés van a listában, az összeset kiírja
+const NUM_QUESTIONS = 15; // Beállítva 15-re, de ha lesz 70 kérdésed, írd át 40-re!
 
 function initQuiz() {
-    // Kérdések megkeverése
     const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
-    // Kiválasztunk 40-et (vagy amennyi van)
-    activeQuestions = shuffled.slice(0, Math.min(TOTAL_NEEDED, allQuestions.length));
+    activeQuestions = shuffled.slice(0, Math.min(NUM_QUESTIONS, allQuestions.length));
     
-    document.getElementById('quiz-header').innerHTML = `Záróvizsga: ${activeQuestions.length} véletlenszerű kérdés a tananyagból`;
-    
+    document.getElementById('quiz-header').innerHTML = `Záróvizsga: ${activeQuestions.length} kérdés`;
     const container = document.getElementById('quiz-container');
     container.innerHTML = '';
 
     activeQuestions.forEach((q, i) => {
         let html = `<div class="question-card"><h3>${i+1}. ${q.q}</h3><div class="options">`;
-        
         if(q.type === 'single') {
-            q.options.forEach((opt, oi) => {
-                html += `<label><input type="radio" name="q${i}" value="${oi}"> ${opt}</label>`;
-            });
+            q.options.forEach((opt, oi) => html += `<label><input type="radio" name="q${i}" value="${oi}"> ${opt}</label>`);
         } else if(q.type === 'multiple') {
-            q.options.forEach((opt, oi) => {
-                html += `<label><input type="checkbox" name="q${i}" value="${oi}"> ${opt}</label>`;
-            });
+            q.options.forEach((opt, oi) => html += `<label><input type="checkbox" name="q${i}" value="${oi}"> ${opt}</label>`);
         } else if(q.type === 'order') {
-            html += `<p style="font-size:0.9rem; color:#666;">Írd be a helyes sorrend számait egymás után (pl. 1234):</p>`;
-            html += `<input type="text" id="q${i}" class="order-input" placeholder="pl. 1324">`;
-            html += `<ul style="font-size: 0.85rem; color: #555; margin-top:10px;">${q.options.map((o, idx) => `<li>${idx+1}. ${o}</li>`).join('')}</ul>`;
+            html += `<p style="font-size:0.8rem; color:gray;">Írd be a sorrendet (pl. 1234):</p><input type="text" id="q${i}" class="order-input" placeholder="1234">`;
+            html += `<ul style="font-size:0.85rem;">${q.options.map((o, idx) => `<li>${idx+1}. ${o}</li>`).join('')}</ul>`;
         }
-        
-        html += `</div></div>`;
-        container.innerHTML += html;
+        container.innerHTML += html + `</div></div>`;
     });
 }
 
@@ -95,31 +89,20 @@ function evaluateQuiz() {
     let score = 0;
     activeQuestions.forEach((q, i) => {
         if(q.type === 'single') {
-            const selected = document.querySelector(`input[name="q${i}"]:checked`);
-            if(selected && parseInt(selected.value) === q.correct) score++;
+            const sel = document.querySelector(`input[name="q${i}"]:checked`);
+            if(sel && parseInt(sel.value) === q.correct) score++;
         } else if(q.type === 'multiple') {
-            const selected = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
-            if(JSON.stringify(selected.sort()) === JSON.stringify(q.correct.sort())) score++;
+            const sel = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
+            if(JSON.stringify(sel.sort()) === JSON.stringify(q.correct.sort())) score++;
         } else if(q.type === 'order') {
-            const inputVal = document.getElementById(`q${i}`).value.trim();
-            const val = inputVal.split('').map(n => parseInt(n)-1);
+            const val = document.getElementById(`q${i}`).value.split('').map(n => parseInt(n)-1);
             if(JSON.stringify(val) === JSON.stringify(q.correct)) score++;
         }
     });
 
     const percent = (score / activeQuestions.length) * 100;
-    const isPassed = percent >= 40;
-    
-    const summary = `
-        PONTSZÁM: ${score} / ${activeQuestions.length}
-        SZÁZALÉK: ${percent.toFixed(1)}%
-        EREDMÉNY: ${isPassed ? "✅ SIKERES VIZSGA" : "❌ SIKERTELEN (40% alatt)"}
-    `;
-    
-    alert(summary);
-    if(confirm("Szeretnél új vizsgát indítani más kérdésekkel?")) {
-        location.reload();
-    }
+    alert(`Eredmény: ${score}/${activeQuestions.length} (${percent.toFixed(1)}%)\n${percent >= 40 ? "SIKERES ✅" : "SIKERTELEN ❌"}`);
+    if(confirm("Új teszt?")) location.reload();
 }
 
 initQuiz();
