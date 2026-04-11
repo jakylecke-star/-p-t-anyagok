@@ -4,84 +4,43 @@
     <meta charset="UTF-8">
     <title>Betontechnológia Segédlet</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; padding: 20px; background: var(--bg); color: #333; }
-        .container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h1 { color: var(--primary); text-align: center; border-bottom: 3px solid var(--accent); padding-bottom: 10px; }
-        h2 { color: var(--primary); margin-top: 30px; background: #fff3e6; padding: 10px; border-radius: 8px; }
-        .method-box { margin-bottom: 30px; border-left: 5px solid var(--accent); padding-left: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
-        th { background: var(--primary); color: white; }
-        .formula { background: #eee; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-weight: bold; display: block; margin: 10px 0; }
-        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; padding: 30px; background: #f4f7f6; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; border-bottom: 2px solid #e67e22; padding-bottom: 5px; }
+        .method { margin-bottom: 30px; padding: 15px; background: #fffaf5; border-radius: 10px; border-left: 5px solid #e67e22; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background: #2c3e50; color: white; }
+        .formula { font-weight: bold; background: #eee; padding: 10px; display: inline-block; border-radius: 5px; }
     </style>
 </head>
 <body>
 <div class="container">
-    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
-    <h1>Betontechnológiai Vizsgálatok</h1>
+    <h1>Frissbeton Vizsgálati Segédlet</h1>
 
-    <div class="method-box">
-        <h2>1. Roskadásmérés (Abrams-kúp)</h2>
-        <p>A frissbeton konzisztenciáját mérjük a saját tömege alatti alakváltozás alapján.</p>
-        <ul>
-            <li>A kúpot 3 rétegben töltjük meg.</li>
-            <li>Minden réteget 25-ször megütögetünk a tömörítő rúddal.</li>
-            <li>A kúp lassú felemelése után mérjük a beton felső pontjának süllyedését (mm).</li>
-        </ul>
+    <div class="method">
+        <h2>Roskadásmérés (Abrams-kúp)</h2>
+        <p>A kúpot 3 rétegben töltjük meg, rétegenként 25 szúrással tömörítve. A kúp lassú felemelése után mérjük a magasságcsökkenést (t).</p>
     </div>
 
-    <div class="method-box">
-        <h2>2. Tömörödési mérték (Walz)</h2>
-        <p>A beton tömöríthetőségét mutatja meg.</p>
-        <div class="formula">c = h / (h - s)</div>
-        <p>Ahol: <b>h</b> = az edény magassága (400 mm), <b>s</b> = a tömörítés utáni süllyedés.</p>
+    <div class="method">
+        <h2>Tömörödési mérték (Walz)</h2>
+        <p>A tartályt (h=400 mm) lazán megtöltjük, majd vibroasztalon tömörítjük.</p>
+        <p>Képlet: <span class="formula">c = h / (h - s)</span></p>
     </div>
 
-    <div class="method-box">
-        <h2>3. Terülésmérés (Ejtőasztal)</h2>
-        <p>Folyósabb betonoknál alkalmazott módszer.</p>
-        <div class="formula">f = (d1 + d2) / 2</div>
-        <p>Az ejtőasztal 15-szöri megemelése és leejtése után mérjük a szétterült beton átmérőjét két irányban.</p>
+    <div class="method">
+        <h2>Terülésmérés</h2>
+        <p>Az ejtőasztalon 15-szöri ejtés után mérjük a lepény két átmérőjét (d1, d2).</p>
+        <p>Képlet: <span class="formula">f = (d1 + d2) / 2</span></p>
     </div>
 
-    <h2>Konzisztencia osztályok (MSZ EN 206)</h2>
+    <h2>Konzisztencia osztályok</h2>
     <table>
-        <thead>
-            <tr>
-                <th>Jellemző</th>
-                <th>S (Roskadás)</th>
-                <th>C (Tömörödés)</th>
-                <th>F (Terülés)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><b>Kissé képlékeny</b></td>
-                <td>S1: 10-40 mm</td>
-                <td>C1: ≥ 1,26</td>
-                <td>F1: ≤ 340 mm</td>
-            </tr>
-            <tr>
-                <td><b>Képlékeny</b></td>
-                <td>S2: 50-90 mm</td>
-                <td>C2: 1,25-1,11</td>
-                <td>F2: 350-410 mm</td>
-            </tr>
-            <tr>
-                <td><b>Képlékeny / Folyós</b></td>
-                <td>S3: 100-150 mm</td>
-                <td>C3: 1,10-1,04</td>
-                <td>F3: 420-480 mm</td>
-            </tr>
-            <tr>
-                <td><b>Folyós</b></td>
-                <td>S4: 160-210 mm</td>
-                <td>-</td>
-                <td>F4: 490-550 mm</td>
-            </tr>
-        </tbody>
+        <tr><th>Osztály</th><th>Roskadás (mm)</th><th>Tömörödés (c)</th><th>Terülés (mm)</th></tr>
+        <tr><td>S1 / C1 / F1</td><td>10-40</td><td>1,45-1,26</td><td>≤ 340</td></tr>
+        <tr><td>S2 / C2 / F2</td><td>50-90</td><td>1,25-1,11</td><td>350-410</td></tr>
+        <tr><td>S3 / C3 / F3</td><td>100-150</td><td>1,10-1,04</td><td>420-480</td></tr>
     </table>
 </div>
 </body>
