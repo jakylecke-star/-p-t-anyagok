@@ -2,32 +2,99 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Beton Gyakorló</title>
+    <title>Kötőanyag Gyakorló</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; text-align: center; }
-        .quiz-box { display: inline-block; text-align: left; background: #e8f5e9; padding: 20px; border-radius: 15px; }
-        input { padding: 8px; margin: 10px 0; width: 100px; }
-        button { padding: 10px 20px; background: #2e7d32; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
+        h2 { color: var(--primary); margin-top: 0; }
+        .task-box { background: #e8f5e9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid var(--accent); }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; margin-bottom: 15px; }
+        
+        .button-group { display: flex; gap: 10px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .check-btn { background: var(--primary); color: white; }
+        .sol-btn { background: #95a5a6; color: white; display: none; }
+        
+        #feedback { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; }
+        .back-link { display: block; margin-bottom: 20px; text-decoration: none; color: #3498db; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="quiz-box">
-        <h3>Gyakorló feladat</h3>
-        <p>Terülésmérés során d1 = 430 mm és d2 = 450 mm.</p>
-        <p>Számold ki az 'f' értéket: <input type="number" id="f_val"> mm</p>
-        <button onclick="check()">Ellenőrzés</button>
-        <p id="feedback"></p>
+
+<div class="card">
+    <a href="../index.html" class="back-link">← Vissza</a>
+    <h2>Szemcsefinomság mérése</h2>
+    <div class="task-box" id="task-text">Töltés...</div>
+
+    <div class="input-group">
+        <label>Szitamaradék tömegszázalékban (%):</label>
+        <input type="number" id="userAns" step="0.01" placeholder="Add meg a százalékos értéket">
     </div>
 
-    <script>
-        function check() {
-            let val = document.getElementById('f_val').value;
-            if(val == 440) {
-                document.getElementById('feedback').innerHTML = "✅ Helyes! Ez az <b>F3</b> osztály.";
-            } else {
-                document.getElementById('feedback').innerHTML = "❌ Nem jó. Átlagolj: (430+450)/2";
-            }
+    <div class="button-group">
+        <button onclick="checkAnswer()" class="check-btn">Ellenőrzés</button>
+        <button onclick="showSolution()" id="solBtn" class="sol-btn">Megoldás megmutatása</button>
+    </div>
+
+    <div id="feedback">
+        <div id="status-text"></div>
+        <div id="solution-text" style="display:none; margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 10px; font-weight: bold;"></div>
+    </div>
+</div>
+
+<script>
+    let m_minta, m_maradek, correctAns;
+
+    function generateTask() {
+        // Általában 10g-ot (10000mg) mérünk be
+        m_minta = 10; 
+        // Véletlenszerű maradék 0.1 és 1.5g között
+        m_maradek = (Math.random() * 1.4 + 0.1).toFixed(2);
+        
+        correctAns = ((m_maradek / m_minta) * 100).toFixed(1);
+        
+        document.getElementById('task-text').innerHTML = 
+            `A laborvizsgálat során <b>${m_minta} g</b> mészhidrátot szitáltunk át 0,09 mm-es szitán. A szitán maradt anyag tömege <b>${m_maradek} g</b>. <br><br> Mekkora a szitamaradék tömegszázaléka?`;
+        
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('solBtn').style.display = 'none';
+        document.getElementById('userAns').value = '';
+    }
+
+    function checkAnswer() {
+        const userVal = document.getElementById('userAns').value;
+        const feedback = document.getElementById('feedback');
+        const status = document.getElementById('status-text');
+        const solBtn = document.getElementById('solBtn');
+        const solText = document.getElementById('solution-text');
+
+        feedback.style.display = 'block';
+        solText.style.display = 'none';
+
+        if (Math.abs(userVal - correctAns) <= 0.1) {
+            feedback.style.backgroundColor = '#d4edda';
+            feedback.style.color = '#155724';
+            let szabvany = correctAns <= 10 ? "megfelel" : "nem felel meg";
+            status.innerHTML = `✅ <b>Helyes!</b> Az érték ${correctAns}%. Ez alapján az anyag a szabványnak <b>${szabvany}</b>.`;
+            solBtn.style.display = 'none';
+        } else {
+            feedback.style.backgroundColor = '#f8d7da';
+            feedback.style.color = '#721c24';
+            status.innerHTML = "❌ <b>Hibás válasz.</b> Próbáld újra a százalékszámítást!";
+            solBtn.style.display = 'inline-block';
+            solText.innerHTML = `Képlet: R = (m<sub>maradék</sub> / m<sub>összes</sub>) · 100 <br>
+                                Számítás: (${m_maradek} / ${m_minta}) · 100 = ${correctAns} %`;
         }
-    </script>
+    }
+
+    function showSolution() {
+        document.getElementById('solution-text').style.display = 'block';
+    }
+
+    generateTask();
+</script>
+
 </body>
 </html>
