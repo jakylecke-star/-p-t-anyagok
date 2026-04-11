@@ -34,14 +34,14 @@
 
         .topic-nav {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 35px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .topic-btn {
-            padding: 12px 24px;
+            padding: 12px 20px;
             border: 2px solid var(--primary);
             background: transparent;
             color: var(--primary);
@@ -122,6 +122,7 @@
         <button class="topic-btn" onclick="showTopic('adalekanyag', this)">3. Adalékanyagok</button>
         <button class="topic-btn" onclick="showTopic('mechanika', this)">4. Mechanika</button>
         <button class="topic-btn" onclick="showTopic('kotoanyag', this)">5. Kötőanyagok</button>
+        <button class="topic-btn" onclick="showTopic('beton', this)">6. Betontechnológia</button>
     </div>
 
     <div id="suruseg" class="content-area active">
@@ -148,7 +149,7 @@
 
     <div id="adalekanyag" class="content-area">
         <div class="card">
-            <h3>Adalékanyagok</h3>
+            <h3>Adalékanyagok minősítése</h3>
             <p>Szemmegoszlás és szemcseösszetétel.</p>
             <div class="grid">
                 <a href="segedlet.html#adalekanyag" class="sub-btn"><span>📖</span> Segédlet</a>
@@ -160,7 +161,7 @@
     <div id="mechanika" class="content-area">
         <div class="card">
             <h3>Mechanikai vizsgálatok</h3>
-            <p>Húzó- és nyomószilárdság mérése.</p>
+            <p>Húzó- és nyomószilárdság mérése saját példákkal.</p>
             <div class="grid">
                 <a href="segedlet.html#mechanika" class="sub-btn"><span>📖</span> Segédlet</a>
                 <a href="fizikai-vizsgalatok/mechanika-mintak.html" class="sub-btn"><span>📄</span> Minták</a>
@@ -181,21 +182,27 @@
     </div>
 
     <div id="beton" class="content-area">
-    <div class="card">
-        <h3>Betontechnológia</h3>
-        <p>Frissbeton konzisztencia vizsgálatok: roskadás, tömörödés és terülés.</p>
-        <div class="grid">
-            <a href="fizikai-vizsgalatok/beton-segedlet.html" class="sub-btn"><span>📖</span> Segédlet</a>
-            <a href="fizikai-vizsgalatok/beton-mintak.html" class="sub-btn"><span>📄</span> Mintafeladat</a>
-            <a href="fizikai-vizsgalatok/beton-gyakorlo.html" class="sub-btn"><span>🏗️</span> Gyakorlás</a>
+        <div class="card">
+            <h3>Betontechnológia</h3>
+            <p>Frissbeton konzisztencia: roskadás, tömörödés és terülés.</p>
+            <div class="grid">
+                <a href="fizikai-vizsgalatok/beton-segedlet.html" class="sub-btn"><span>📖</span> Segédlet</a>
+                <a href="fizikai-vizsgalatok/beton-mintak.html" class="sub-btn"><span>📄</span> Mintafeladat</a>
+                <a href="fizikai-vizsgalatok/beton-gyakorlo.html" class="sub-btn"><span>🏗️</span> Gyakorlás</a>
+            </div>
         </div>
     </div>
-</div>
 
     <script>
         function showTopic(id, btn) {
+            // Minden tartalom elrejtése
             document.querySelectorAll('.content-area').forEach(area => area.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            // A kiválasztott tartalom megjelenítése
+            const selectedArea = document.getElementById(id);
+            if (selectedArea) {
+                selectedArea.classList.add('active');
+            }
+            // Gombok stílusának frissítése
             document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
