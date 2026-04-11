@@ -2,20 +2,36 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Beton Mintafeladat</title>
+    <title>Beton Mintafeladatok</title>
     <style>
-        body { font-family: sans-serif; padding: 30px; }
-        .calculation { background: #fff3e0; padding: 20px; border-left: 5px solid #ff9800; border-radius: 5px; }
+        :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 30px; border-radius: 20px; max-width: 800px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: block; margin-bottom: 20px; }
+        .example-card { background: #f1f9f1; border-left: 5px solid var(--accent); padding: 20px; margin-bottom: 25px; border-radius: 0 15px 15px 0; }
+        .sol { font-weight: bold; color: #1e8449; font-size: 1.1em; }
     </style>
 </head>
 <body>
-    <h1>Kidolgozott mintafeladat</h1>
-    <div class="calculation">
-        <h3>Feladat: Tömörödési mérték meghatározása</h3>
-        <p>A vizsgálóedény magassága $h = 400\text{ mm}$. A tömörítés után mért átlagos süllyedés $s = 60\text{ mm}$. Számítsuk ki a tömörödési mértéket!</p>
-        <p><b>Megoldás:</b></p>
-        <p>$$c = \frac{400}{400 - 60} = \frac{400}{340} \approx 1,18$$</p>
-        <p>A táblázat alapján ez a **C2** tömörítési osztályba tartozik (képlékeny állag).</p>
+<div class="container">
+    <a href="../index.html" class="back-link">← Vissza a főmenübe</a>
+    <h2>Betontechnológiai Mintafeladatok</h2>
+
+    <div class="example-card">
+        <h3>1. Tömörödési mérték (Walz-módszer)</h3>
+        <p><b>Adatok:</b><br>Edény magassága (h): 400 mm<br>Süllyedés tömörítés után (s): 55 mm</p>
+        <p><b>Számítás:</b> c = h / (h - s) = 400 / (400 - 55) = 400 / 345</p>
+        <p><b>Eredmény:</b> <span class="sol">c = 1,16</span></p>
+        <p><i>Konzisztencia osztály: <b>C2</b> (Képlékeny)</i></p>
     </div>
+
+    <div class="example-card" style="border-left-color: #2c3e50; background: #f4f6f7;">
+        <h3>2. Terülésmérés (Ejtőasztal)</h3>
+        <p><b>Adatok:</b><br>D1 átmérő: 440 mm<br>D2 átmérő: 460 mm</p>
+        <p><b>Számítás:</b> f = (440 + 460) / 2</p>
+        <p><b>Eredmény:</b> <span class="sol">f = 450 mm</span></p>
+        <p><i>Konzisztencia osztály: <b>F3</b> (Folyós)</i></p>
+    </div>
+</div>
 </body>
 </html>
